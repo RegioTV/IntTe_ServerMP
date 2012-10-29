@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -20,7 +21,8 @@ public class ChatApplicationBean {
 
 	private List<UserBean> userBeans;
 	private List<RoomBean> roomBeans;
-	public String currentUsername;
+	public String name;
+	public String username;
 	public String password;
 
 	public ChatApplicationBean() {
@@ -30,7 +32,10 @@ public class ChatApplicationBean {
 
 	private void loadUserList() {
 		try {
+			userBeans = new ArrayList<UserBean>();
 			File file = new File(USER_LIST_FILENAME);
+			file.createNewFile();
+			
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
@@ -47,10 +52,13 @@ public class ChatApplicationBean {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void loadRoomList() {
 		try {
+			roomBeans = new ArrayList<RoomBean>();
 			File file = new File(ROOM_LIST_FILENAME);
+			file.createNewFile();
+			
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
@@ -67,16 +75,16 @@ public class ChatApplicationBean {
 		}
 	}
 
-	private UserBean findUser(String userName) {
+	private UserBean findUser(String username) {
 		for (int i = 0; i < userBeans.size(); i++) {
-			if (userBeans.get(i).getName().equals(userName))
+			if (userBeans.get(i).getName().equals(username))
 				return userBeans.get(i);
 		}
 		return null;
 	}
 
 	public String enterChat() {
-		UserBean user = findUser(currentUsername);
+		UserBean user = findUser(username);
 		if (user != null) {
 			if (!user.validate(password))
 				return "wrong.xhtml";
@@ -97,5 +105,9 @@ public class ChatApplicationBean {
 		invalidateSession();
 		return "cancelled.xhtml";
 	}
-
+	
+	public Integer getCount() {
+		System.out.println(userBeans == null);
+		return userBeans.size();
+	}
 }
