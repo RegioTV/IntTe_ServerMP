@@ -20,7 +20,8 @@ public class ChatBean {
 
 	private List<UserBean> userBeans;
 	private List<RoomBean> roomBeans;
-	public UserBean currentUser;
+	public String currentUsername;
+	public String password;
 
 	public ChatBean() {
 		loadRoomList();
@@ -74,8 +75,13 @@ public class ChatBean {
 		return null;
 	}
 
-	public void enterChat() {
-
+	public String enterChat() {
+		UserBean user = findUser(currentUsername);
+		if (user != null) {
+			if (!user.validate(password))
+				return "wrong.xhtml";
+		}
+		return "lobby.xhtml";
 	}
 
 	private void invalidateSession() {
