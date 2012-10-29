@@ -5,6 +5,10 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class ChatRoomBean {
+public class RoomBean {
+
+	public RoomBean(String line) {
+		// TODO Auto-generated constructor stub
+	}
 
 }

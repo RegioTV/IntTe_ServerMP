@@ -15,12 +15,12 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class ChatBean {
 
-	private final static String ROOM_LIST_FILENAME = "rooms.txt";
+	private final static String ROOM_LIST_FILENAME = "roomBeans.txt";
 	private final static String USER_LIST_FILENAME = "users.txt";
 
 	private List<UserBean> userBeans;
-	private List<ChatRoomBean> rooms;
-	private String userName;
+	private List<RoomBean> roomBeans;
+	public UserBean currentUser;
 
 	public ChatBean() {
 		loadRoomList();
@@ -31,13 +31,12 @@ public class ChatBean {
 		try {
 			File file = new File(USER_LIST_FILENAME);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line;
-			do {
-				line = reader.readLine();
+			String line = reader.readLine();
+			while (line != null) {
 				String[] credentials = line.split(":");
 				userBeans.add(new UserBean(credentials[0], credentials[1]));
-			} while (line != null);
-			
+				line = reader.readLine();
+			}
 			try {
 				reader.close();
 			} catch (IOException e) {
@@ -49,12 +48,30 @@ public class ChatBean {
 	}
 
 	private void loadRoomList() {
-		// TODO Auto-generated method stub
-
+		try {
+			File file = new File(ROOM_LIST_FILENAME);
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+			while (line != null) {
+				roomBeans.add(new RoomBean(line));
+				line = reader.readLine();
+			}
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	private UserBean findUser(String userName) {
+		for (int i = 0; i < userBeans.size(); i++) {
+			if (userBeans.get(i).getName().equals(userName))
+				return userBeans.get(i);
+		}
+		return null;
 	}
 
 	public void enterChat() {
