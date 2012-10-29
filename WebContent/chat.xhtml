@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-	<title>Chat zum Thema #{chatBean.topic}</title>
+	<title>Chat zum Thema #{chatApplicationBean.topic}</title>
 </h:head>
 <h:body>
 	<div>
@@ -14,10 +14,10 @@
 		<h:outputText id="userList"></h:outputText>
 	</div>
 	<h:form>
-		Eingabe von #{chatBean.currentUser}:
-		<h:inputText id="newPost" value="#{chatBean.newPost}"></h:inputText>
+		Eingabe von #{chatApplicationBean.currentUser}:
+		<h:inputText id="newPost" value="#{chatApplicationBean.newPost}"></h:inputText>
 		<h:commandButton id="postMessage" value="abschicken"
-			action="#{chatBean.postMessage}" />
+			action="#{chatApplicationBean.postMessage}" />
 		<h:link id="leaveChat" value="Chat verlassen"></h:link>
 	</h:form>
 	<h3>Gesprächsverlauf:</h3>

@@ -10,28 +10,28 @@
 </h:head>
 <h:body>
 	<div>Willkommen in der Chat Lobby! Gegenwärtig sind
-		#{ChatBean.count} Chats im Gange.</div>
+		#{chatApplicationBean.count} Chats im Gange.</div>
 	<h:form>
 		Falls du registriert bist, gib dein Benutzername und Passwort ein.
 		Falls du nicht registriert bist, wähle einen Benutzernamen und lasse das Passwortfeld leer.
 		Gib deinen Namen ein:
-		<h:inputText id="userName" value="#{ChatBean.userName}">
+		<h:inputText id="userName" value="#{chatApplicationBean.userName}">
 			<f:validateRequired></f:validateRequired>
 		</h:inputText>
 		 deinen Namen ein:
-		<h:inputText id="userName" value="#{ChatBean.userName}">
+		<h:inputText id="userName" value="#{chatApplicationBean.userName}">
 			<f:validateRequired></f:validateRequired>
 		</h:inputText>
 		und erzeuge einen neuen Chat mit Namen:
-		<h:inputText id="newChat" value="#{ChatBean.newChat}">
+		<h:inputText id="newChat" value="#{chatApplicationBean.newChat}">
 		</h:inputText>
 		<h:commandButton id="createNewChat" value="neu"
-			action="#{ChatBean.createNewChat}" />
+			action="#{chatApplicationBean.createNewChat}" />
 		oder wähle einen Chat aus:
 		<h:selectOneListbox id="chatList">
 		</h:selectOneListbox>
 		<h:commandButton id="enterChat" value="beitreten"
-			action="#{ChatBean.enterChat}" />
+			action="#{chatApplicationBean.enterChat}" />
 		<h:link target="_top" href="/registration.xhtml">Ich möchte mich registrieren.</h:link>
 	</h:form>
 </h:body>
