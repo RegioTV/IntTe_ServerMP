@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
-public class ChatBean {
+public class ChatApplicationBean {
 
 	private final static String ROOM_LIST_FILENAME = "roomBeans.txt";
 	private final static String USER_LIST_FILENAME = "users.txt";
@@ -23,7 +23,7 @@ public class ChatBean {
 	public String currentUsername;
 	public String password;
 
-	public ChatBean() {
+	public ChatApplicationBean() {
 		loadRoomList();
 		loadUserList();
 	}
