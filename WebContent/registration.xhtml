@@ -1,0 +1,33 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>Chat Registration</title>
+</h:head>
+<h:body>
+	<div>Du kannst dich mit untenstehendem Formular registrieren.</div>
+	<h:form>
+		Name:
+		<h:inputText id="userName" value="#{chatBean.userName}">
+			<f:validateRequired></f:validateRequired>
+		</h:inputText>
+		Benutzername:
+		<h:inputText id="userName" value="#{chatBean.userName}">
+			<f:validateRequired></f:validateRequired>
+		</h:inputText>
+		Passwort:
+		<h:inputText id="userName" value="#{chatBean.userName}">
+			<f:validateRequired></f:validateRequired>
+		</h:inputText>
+		<h:commandButton id="registerUser" value="registrieren"
+			action="#{chatBean.registerUser}" />
+	</h:form>
+</h:body>
+</html>
+
+
+
