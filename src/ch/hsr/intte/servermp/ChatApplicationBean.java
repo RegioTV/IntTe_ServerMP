@@ -21,9 +21,9 @@ public class ChatApplicationBean {
 
 	private List<UserBean> userBeans;
 	private List<RoomBean> roomBeans;
-	public String name;
-	public String username;
-	public String password;
+	private String name;
+	private String username;
+	private String password;
 
 	public ChatApplicationBean() {
 		loadRoomList();
@@ -110,4 +110,26 @@ public class ChatApplicationBean {
 		System.out.println(userBeans == null);
 		return userBeans.size();
 	}
+	
+	public String getName() {
+		return name;
+	}
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public List<RoomBean> getRoomBeans() {
+		return roomBeans;
+	}
+	
+	public String getNewChat()
+	{
+		return "chat";
+	}
+	
+	
 }
