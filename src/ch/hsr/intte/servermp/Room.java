@@ -1,8 +1,8 @@
 package ch.hsr.intte.servermp;
 
-public class RoomBean {
+public class Room {
 
-	public RoomBean(String line) {
+	public Room(String line) {
 		// TODO Auto-generated constructor stub
 	}
 

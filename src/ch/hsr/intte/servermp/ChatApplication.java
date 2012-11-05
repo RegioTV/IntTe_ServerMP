@@ -14,26 +14,26 @@ import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
-public class ChatApplicationBean {
+public class ChatApplication {
 
-	private final static String ROOM_LIST_FILENAME = "roomBeans.txt";
+	private final static String ROOM_LIST_FILENAME = "rooms.txt";
 	private final static String USER_LIST_FILENAME = "users.txt";
 
-	private List<UserBean> userBeans;
-	private List<RoomBean> roomBeans;
+	private List<User> users;
+	private List<Room> rooms;
 
 	private String name;
 	private String username;
 	private String password;
 
-	public ChatApplicationBean() {
+	public ChatApplication() {
 		loadRoomList();
 		loadUserList();
 	}
 
 	private void loadUserList() {
 		try {
-			userBeans = new ArrayList<UserBean>();
+			users = new ArrayList<User>();
 			File file = new File(USER_LIST_FILENAME);
 			file.createNewFile();
 
@@ -41,7 +41,7 @@ public class ChatApplicationBean {
 			String line = reader.readLine();
 			while (line != null) {
 				String[] credentials = line.split(":");
-				userBeans.add(new UserBean(credentials[0], credentials[1]));
+				users.add(new User(credentials[0], credentials[1]));
 				line = reader.readLine();
 			}
 			try {
@@ -56,14 +56,14 @@ public class ChatApplicationBean {
 
 	private void loadRoomList() {
 		try {
-			roomBeans = new ArrayList<RoomBean>();
+			rooms = new ArrayList<Room>();
 			File file = new File(ROOM_LIST_FILENAME);
 			file.createNewFile();
 
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
-				roomBeans.add(new RoomBean(line));
+				rooms.add(new Room(line));
 				line = reader.readLine();
 			}
 			try {
@@ -76,16 +76,16 @@ public class ChatApplicationBean {
 		}
 	}
 
-	private UserBean findUser(String username) {
-		for (int i = 0; i < userBeans.size(); i++) {
-			if (userBeans.get(i).getName().equals(username))
-				return userBeans.get(i);
+	private User findUser(String username) {
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getName().equals(username))
+				return users.get(i);
 		}
 		return null;
 	}
 
 	public String enterChat() {
-		UserBean user = findUser(username);
+		User user = findUser(username);
 		if (user != null) {
 			if (!user.validate(password))
 				return "wrong.xhtml";
@@ -108,8 +108,8 @@ public class ChatApplicationBean {
 	}
 
 	public Integer getCount() {
-		System.out.println(userBeans == null);
-		return userBeans.size();
+		System.out.println(users == null);
+		return users.size();
 	}
 
 	public String getName() {
@@ -124,8 +124,8 @@ public class ChatApplicationBean {
 		return password;
 	}
 
-	public List<RoomBean> getRoomBeans() {
-		return roomBeans;
+	public List<Room> getRoomBeans() {
+		return rooms;
 	}
 
 	public String getNewChat() {

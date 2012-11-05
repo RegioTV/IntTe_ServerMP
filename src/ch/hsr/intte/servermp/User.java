@@ -1,11 +1,11 @@
 package ch.hsr.intte.servermp;
 
-public class UserBean {
+public class User {
 	
 	private String username;
 	private String password;
 
-	UserBean (String name, String password) {
+	User (String name, String password) {
 		
 	}
 	
