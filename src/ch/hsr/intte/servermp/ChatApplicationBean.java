@@ -21,6 +21,7 @@ public class ChatApplicationBean {
 
 	private List<UserBean> userBeans;
 	private List<RoomBean> roomBeans;
+
 	private String name;
 	private String username;
 	private String password;
@@ -35,7 +36,7 @@ public class ChatApplicationBean {
 			userBeans = new ArrayList<UserBean>();
 			File file = new File(USER_LIST_FILENAME);
 			file.createNewFile();
-			
+
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
@@ -52,13 +53,13 @@ public class ChatApplicationBean {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void loadRoomList() {
 		try {
 			roomBeans = new ArrayList<RoomBean>();
 			File file = new File(ROOM_LIST_FILENAME);
 			file.createNewFile();
-			
+
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
@@ -105,31 +106,30 @@ public class ChatApplicationBean {
 		invalidateSession();
 		return "cancelled.xhtml";
 	}
-	
+
 	public Integer getCount() {
 		System.out.println(userBeans == null);
 		return userBeans.size();
 	}
-	
+
 	public String getName() {
 		return name;
 	}
+
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public List<RoomBean> getRoomBeans() {
 		return roomBeans;
 	}
-	
-	public String getNewChat()
-	{
+
+	public String getNewChat() {
 		return "chat";
 	}
-	
-	
+
 }
