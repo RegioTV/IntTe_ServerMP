@@ -7,20 +7,11 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class RegistrationController {
 
-	private String name;
 	private String username;
 	private String password;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getUsername() {
-		return username;
+	
+	public void register() {
+		
 	}
 
 	public void setUsername(String username) {
