@@ -10,11 +10,11 @@ import java.util.TreeSet;
 
 import ch.hsr.intte.servermp.model.Room;
 
-public class RoomManager {
+public class RoomService {
 
 	private Set<Room> rooms;
 	
-	public RoomManager() {
+	public RoomService() {
 		loadDB();
 	}
 

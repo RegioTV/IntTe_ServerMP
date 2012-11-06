@@ -9,18 +9,19 @@ import java.util.TreeSet;
 
 import ch.hsr.intte.servermp.model.User;
 
-public class UserManager {
+public class UserService {
 
 	private Set<User> users;
-	
-	public UserManager() {
+	private final String USER_DB = "user-list";
+
+	public UserService() {
 		loadDB();
 	}
-	
+
 	private void loadDB() {
 		try {
 			users = new TreeSet<User>();
-			File file = new File("user-list");
+			File file = new File(USER_DB);
 			file.createNewFile();
 
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -39,6 +40,11 @@ public class UserManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void updateDB() {
+
+	}
+
 	public boolean isUsernameUnique(String name) {
 		return false;
 	}
@@ -46,7 +52,7 @@ public class UserManager {
 	public User validateUser(String username, String password) {
 		return null;
 	}
-	
+
 	public User createUser(String username, String password) {
 		return null;
 	}
