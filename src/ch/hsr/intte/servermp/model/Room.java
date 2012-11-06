@@ -1,4 +1,4 @@
-package ch.hsr.intte.servermp;
+package ch.hsr.intte.servermp.model;
 
 public class Room {
 

@@ -12,9 +12,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import ch.hsr.intte.servermp.model.Room;
+import ch.hsr.intte.servermp.model.User;
+
 @ManagedBean
 @SessionScoped
-public class ChatApplication {
+public class ChatController {
 
 	private final static String ROOM_LIST_FILENAME = "rooms.txt";
 	private final static String USER_LIST_FILENAME = "users.txt";
@@ -26,7 +29,7 @@ public class ChatApplication {
 	private String username;
 	private String password;
 
-	public ChatApplication() {
+	public ChatController() {
 		loadRoomList();
 		loadUserList();
 	}

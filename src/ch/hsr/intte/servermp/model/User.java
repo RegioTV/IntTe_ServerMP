@@ -1,11 +1,11 @@
-package ch.hsr.intte.servermp;
+package ch.hsr.intte.servermp.model;
 
 public class User {
 	
 	private String username;
 	private String password;
 
-	User (String name, String password) {
+	public User (String name, String password) {
 		
 	}
 	
