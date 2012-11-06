@@ -6,4 +6,11 @@ public class Room {
 		// TODO Auto-generated constructor stub
 	}
 
+	public boolean enterRoom(User user) {
+		return false;
+	}
+	
+	public boolean leaveRoom(User user) {
+		return false;
+	}
 }
