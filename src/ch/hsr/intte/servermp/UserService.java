@@ -18,7 +18,7 @@ public class UserService {
 		loadDB();
 	}
 
-	private void loadDB() {
+	private synchronized void loadDB() {
 		try {
 			users = new TreeSet<User>();
 			File file = new File(USER_DB);
@@ -41,7 +41,7 @@ public class UserService {
 		}
 	}
 
-	public void updateDB() {
+	public synchronized void updateDB() {
 
 	}
 

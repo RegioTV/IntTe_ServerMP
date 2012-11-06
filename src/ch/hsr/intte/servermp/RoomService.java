@@ -1,12 +1,7 @@
 package ch.hsr.intte.servermp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
-import java.util.TreeSet;
 
 import ch.hsr.intte.servermp.model.Room;
 
@@ -15,29 +10,6 @@ public class RoomService {
 	private Set<Room> rooms;
 	
 	public RoomService() {
-		loadDB();
-	}
-
-	private void loadDB() {
-		try {
-			rooms = new TreeSet<Room>();
-			File file = new File("room-list");
-			file.createNewFile();
-
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line = reader.readLine();
-			while (line != null) {
-				rooms.add(new Room(line));
-				line = reader.readLine();
-			}
-			try {
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public boolean isRoomnameUnique(String name) {

@@ -11,20 +11,16 @@
 <h:body>
 	<div>Du kannst dich mit untenstehendem Formular registrieren.</div>
 	<h:form>
-		Name:
-		<h:inputText id="userName" value="#{chatApplicationBean.userName}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
 		Benutzername:
-		<h:inputText id="userName" value="#{chatApplicationBean.userName}">
+		<h:inputText id="username" value="#{chatApplicationBean.username}">
 			<f:validateRequired></f:validateRequired>
 		</h:inputText>
 		Passwort:
-		<h:inputText id="userName" value="#{chatApplicationBean.userName}">
+		<h:inputText id="password" value="#{chatApplicationBean.password}">
 			<f:validateRequired></f:validateRequired>
 		</h:inputText>
 		<h:commandButton id="registerUser" value="registrieren"
-			action="#{chatApplicationBean.registerUser}" />
+			action="#{chatApplicationBean.register}" />
 	</h:form>
 </h:body>
 </html>
