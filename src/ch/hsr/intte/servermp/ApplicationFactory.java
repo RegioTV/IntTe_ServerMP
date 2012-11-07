@@ -1,6 +1,9 @@
 package ch.hsr.intte.servermp;
 
-public class ServiceFactory {
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+public class ApplicationFactory {
 
 	private final static RoomService roomService = new RoomService();
 	private final static UserService userService = new UserService();
@@ -11,5 +14,10 @@ public class ServiceFactory {
 	
 	public static UserService getUserService() {
 		return userService;
+	}
+	
+	public static HttpSession getSession() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		return (HttpSession) fc.getExternalContext().getSession(false);
 	}
 }
