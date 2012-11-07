@@ -10,12 +10,16 @@ public class User {
 		this.password = password;
 	}
 	
-	public String getName() {
+	public String getUsername() {
 		return username;
 	}
 	
 	public boolean validate(String password) {
 		return this.password.equals(password);
+	}
+	
+	public String toString() {
+		return username + ":" + password;
 	}
 
 }

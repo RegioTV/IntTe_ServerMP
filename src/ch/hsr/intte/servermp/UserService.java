@@ -1,8 +1,10 @@
 package ch.hsr.intte.servermp;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
@@ -41,19 +43,40 @@ public class UserService {
 		}
 	}
 
-	public synchronized void updateDB() {
+	private synchronized void updateDB(User user) {
+		try {
+			File file = new File(USER_DB);
+			file.createNewFile();
 
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write(user.toString() + "\n");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public boolean isUsernameUnique(String name) {
-		return false;
+	public synchronized boolean isUsernameUnique(String username) {
+		for (User user : users) {
+			if (user.getUsername().equals(username))
+				return false;
+		}
+		return true;
 	}
 
 	public User validateUser(String username, String password) {
+		for (User user : users) {
+			if (user.getUsername().equals(username) && user.validate(password))
+				return user;
+		}
 		return null;
 	}
 
-	public User createUser(String username, String password) {
-		return null;
+	public synchronized User createUser(String username, String password) {
+		User user = new User(username, password);
+		users.add(user);
+		updateDB(user);
+		return user;
 	}
 }
