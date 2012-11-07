@@ -6,14 +6,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import ch.hsr.intte.servermp.model.User;
 
 public class UserService {
 
-	private Set<User> users;
+	private Set<User> users = new HashSet<User>();
 	private final String USER_DB = "user-list";
 
 	public UserService() {
@@ -22,9 +22,9 @@ public class UserService {
 
 	private synchronized void loadDB() {
 		try {
-			users = new TreeSet<User>();
 			File file = new File(USER_DB);
-			file.createNewFile();
+			if (!file.exists())
+				file.createNewFile();
 
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
@@ -46,9 +46,8 @@ public class UserService {
 	private synchronized void updateDB(User user) {
 		try {
 			File file = new File(USER_DB);
-			file.createNewFile();
-
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file,
+					true));
 			writer.write(user.toString() + "\n");
 			writer.flush();
 			writer.close();
