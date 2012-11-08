@@ -18,7 +18,7 @@ public class RegistrationController {
 	private String password;
 
 	public String register() throws Exception {
-		UserService userService = ApplicationFactory.getUserService();
+		UserService userService = ServiceFactory.getUserService();
 		User user = userService.createUser(username, password);
 		if (user != null)
 			return "registration_ok.xhtml";
@@ -28,7 +28,7 @@ public class RegistrationController {
 	}
 	
 	public void checkUsername (FacesContext context, UIComponent component, Object value) throws ValidatorException {
-		if (!ApplicationFactory.getUserService().isUsernameUnique((String) value)) {
+		if (!ServiceFactory.getUserService().isUsernameUnique((String) value)) {
 			FacesMessage message = new FacesMessage();
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			message.setSummary("Username already exists.");
