@@ -11,6 +11,7 @@ import org.primefaces.push.PushContextFactory;
 
 import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
+import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
 @ViewScoped
