@@ -1,9 +1,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
 	<title>Chat Registration</title>
@@ -12,18 +10,13 @@
 	<div>Du kannst dich mit untenstehendem Formular registrieren.</div>
 	<h:form>
 		Benutzername:
-		<h:inputText id="username" value="#{registrationController.username}"
-			validator="#{registrationController.checkUsername}" required="true" />
+		<h:inputText id="username" value="#{registrationController.username}" validator="#{registrationController.checkUsername}" required="true" />
 		Passwort:
-		<h:inputSecret id="password"
-			value="#{registrationController.password}" required="true" />
-		<h:commandButton id="register" value="registrieren"
-			action="#{registrationController.register}" />
+		<h:inputSecret id="password" value="#{registrationController.password}" required="true" />
+		<h:commandButton id="register" value="registrieren" action="#{registrationController.register}" />
 		<br />
-		<h:message showSummary="true" showDetail="false" class="errorMessage"
-			id="usernameError" for="username" />
-		<h:message showSummary="true" showDetail="false" class="errorMessage"
-			id="passwordError" for="password" />
+		<h:message showSummary="true" showDetail="false" class="errorMessage" id="usernameError" for="username" />
+		<h:message showSummary="true" showDetail="false" class="errorMessage" id="passwordError" for="password" />
 	</h:form>
 </h:body>
 </html>

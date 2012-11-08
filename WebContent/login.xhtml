@@ -1,16 +1,13 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
 	<title>Chat Lobby</title>
 </h:head>
 <h:body>
-	<div>Willkommen in der Chat Lobby! Gegenwärtig sind
-		#{chatApplicationBean.count} Chats im Gange.</div>
+	<div>Willkommen in der Chat Lobby! Gegenwärtig sind #{chatApplicationBean.count} Chats im Gange.</div>
 	<h:form>
 		Falls du registriert bist, gib dein Benutzername und Passwort ein.
 		Falls du nicht registriert bist, wähle einen Benutzernamen und lasse das Passwortfeld leer.
@@ -25,13 +22,11 @@
 		und erzeuge einen neuen Chat mit Namen:
 		<h:inputText id="newChat" value="#{chatApplicationBean.newChat}">
 		</h:inputText>
-		<h:commandButton id="createNewChat" value="neu"
-			action="#{chatApplicationBean.createNewChat}" />
+		<h:commandButton id="createNewChat" value="neu" action="#{chatApplicationBean.createNewChat}" />
 		oder wähle einen Chat aus:
 		<h:selectOneListbox id="chatList">
 		</h:selectOneListbox>
-		<h:commandButton id="enterChat" value="beitreten"
-			action="#{chatApplicationBean.enterChat}" />
+		<h:commandButton id="enterChat" value="beitreten" action="#{chatApplicationBean.enterChat}" />
 		<h:link target="_top" href="/registration.xhtml">Ich möchte mich registrieren.</h:link>
 	</h:form>
 </h:body>
