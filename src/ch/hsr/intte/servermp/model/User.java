@@ -1,21 +1,35 @@
 package ch.hsr.intte.servermp.model;
 
 public class User {
-	
+
 	private String username;
 	private String password;
 
-	public User (String username, String password) {
+	private Room room;
+
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
-	
-	public String getName() {
+
+	public String getUsername() {
 		return username;
 	}
-	
+
 	public boolean validate(String password) {
 		return this.password.equals(password);
+	}
+
+	public void enterRoom(Room room) {
+		this.room = room;
+	}
+
+	public void leaveRoom() {
+		this.room = null;
+	}
+
+	public Room getRoom() {
+		return room;
 	}
 
 }
