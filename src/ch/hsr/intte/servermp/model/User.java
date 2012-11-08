@@ -19,7 +19,7 @@ public class User {
 	public boolean validate(String password) {
 		return this.password.equals(password);
 	}
-	
+
 	public void enterRoom(Room room) {
 		this.room = room;
 	}

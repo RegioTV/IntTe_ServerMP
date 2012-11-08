@@ -3,7 +3,7 @@ package ch.hsr.intte.servermp;
 import ch.hsr.intte.servermp.services.RoomService;
 import ch.hsr.intte.servermp.services.UserService;
 
-public class ServiceFactory {
+public class ApplicationFactory {
 
 	private final static RoomService roomService = new RoomService();
 	private final static UserService userService = new UserService();
@@ -15,5 +15,5 @@ public class ServiceFactory {
 	public static UserService getUserService() {
 		return userService;
 	}
-	
+
 }
