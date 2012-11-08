@@ -19,7 +19,10 @@
 			<attribute name="owner.project.facets" value="jst.jsf"/>
 		</attributes>
 	</classpathentry>
+
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/atmosphere-runtime-1.0.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-3.4.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cupertino-1.0.8.jar"/>
+
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

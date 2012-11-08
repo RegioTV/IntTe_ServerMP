@@ -19,11 +19,7 @@ public class User {
 	public boolean validate(String password) {
 		return this.password.equals(password);
 	}
-
-	public String toString() {
-		return username + ":" + password;
-	}
-
+	
 	public void enterRoom(Room room) {
 		this.room = room;
 	}
@@ -34,6 +30,10 @@ public class User {
 
 	public Room getRoom() {
 		return room;
+	}
+
+	public String toString() {
+		return username + ":" + password;
 	}
 
 }
