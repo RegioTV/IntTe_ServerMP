@@ -20,18 +20,18 @@ public class UserService extends AbstractService<User> {
 	}
 
 	@Override
-	protected String getId(User user) {
+	String getId(User user) {
 		return user.getUsername();
 	}
 
 	@Override
-	protected User convert(String line) {
+	User convert(String line) {
 		String[] tokens = line.split(":");
 		return new User(tokens[0], tokens[1]);
 	}
 
 	@Override
-	protected String convert(User user) {
+	String convert(User user) {
 		return user.getUsername() + ":" + user.getPassword();
 	}
 
