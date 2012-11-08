@@ -20,12 +20,16 @@ public class User {
 		return this.password.equals(password);
 	}
 
+	public String toString() {
+		return username + ":" + password;
+	}
+
 	public void enterRoom(Room room) {
 		this.room = room;
 	}
 
 	public void leaveRoom() {
-		this.room = null;
+		room = null;
 	}
 
 	public Room getRoom() {

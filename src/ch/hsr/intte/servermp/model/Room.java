@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import ch.hsr.intte.servermp.ServiceFactory;
-import ch.hsr.intte.servermp.UserService;
+import ch.hsr.intte.servermp.services.UserService;
 
 public class Room {
 
