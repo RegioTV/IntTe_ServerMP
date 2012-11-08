@@ -1,27 +1,29 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Chat zum Thema #{chatApplicationBean.topic}</title>
 </h:head>
 <h:body>
+
 	<div>
-		Gegenwärtig sind folgende Teilnehmer im Chat:
-		<h:outputText id="userList"></h:outputText>
+		<h:outputText>
+			<c:forEach var="user" items="#{roomController.room.users}">
+				#{user.username}
+			</c:forEach>
+		</h:outputText>
 	</div>
+
+	<h:outputText id="outputArea" />
+
 	<h:form>
-		Eingabe von #{chatApplicationBean.currentUser}:
-		<h:inputText id="newPost" value="#{chatApplicationBean.newPost}"></h:inputText>
-		<h:commandButton id="postMessage" value="abschicken"
-			action="#{chatApplicationBean.postMessage}" />
-		<h:link id="leaveChat" value="Chat verlassen"></h:link>
+		<p:inputText id="inputArea" />
+		<p:commandButton id="sendButton" value="Send" actionListener="#{roomController.sendMessage}" />
 	</h:form>
-	<h3>Gesprächsverlauf:</h3>
-	<h:outputText id="chatHistory"></h:outputText>
+
 </h:body>
 </html>
 
