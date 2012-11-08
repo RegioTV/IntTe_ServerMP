@@ -1,4 +1,4 @@
-package ch.hsr.intte.servermp;
+package ch.hsr.intte.servermp.services;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,8 +47,7 @@ public class UserService {
 	private synchronized void updateDB(User user) {
 		try {
 			File file = new File(USER_DB);
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file,
-					true));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
 			writer.write(user.toString() + "\n");
 			writer.flush();
 			writer.close();
@@ -78,4 +78,9 @@ public class UserService {
 		updateDB(user);
 		return user;
 	}
+
+	public Collection<User> findAll() {
+		return null;
+	}
+
 }
