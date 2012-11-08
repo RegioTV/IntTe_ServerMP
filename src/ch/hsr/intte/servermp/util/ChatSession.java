@@ -14,11 +14,16 @@ public class ChatSession {
 	private static final String USER = "user";
 	private static final String ROOM = "room";
 
-	private ChatSession() {}
+	private static ChatSession instance;
 
 	public static ChatSession getInstance() {
-		return new ChatSession();
+		if (instance != null)
+			return instance;
+		else
+			return instance = new ChatSession();
 	}
+
+	private ChatSession() {}
 
 	public User getUser() {
 		return (User) getSessionMap().get(USER);

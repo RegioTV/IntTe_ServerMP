@@ -4,7 +4,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.primefaces.push.PushContext;
 import org.primefaces.push.PushContextFactory;
@@ -14,7 +14,7 @@ import ch.hsr.intte.servermp.model.User;
 import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class RoomController {
 
 	private static final Lock lock = new ReentrantLock();
@@ -31,6 +31,30 @@ public class RoomController {
 		room = chatSession.getRoom();
 
 		user.enterRoom(room);
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public void sendMessage() {
