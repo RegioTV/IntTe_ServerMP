@@ -12,15 +12,18 @@
 	<div>Du kannst dich mit untenstehendem Formular registrieren.</div>
 	<h:form>
 		Benutzername:
-		<h:inputText id="username" value="#{chatApplicationBean.username}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
+		<h:inputText id="username" value="#{registrationController.username}"
+			validator="#{registrationController.checkUsername}" required="true" />
 		Passwort:
-		<h:inputText id="password" value="#{chatApplicationBean.password}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
-		<h:commandButton id="registerUser" value="registrieren"
-			action="#{chatApplicationBean.register}" />
+		<h:inputSecret id="password"
+			value="#{registrationController.password}" required="true" />
+		<h:commandButton id="register" value="registrieren"
+			action="#{registrationController.register}" />
+		<br />
+		<h:message showSummary="true" showDetail="false" class="errorMessage"
+			id="usernameError" for="username" />
+		<h:message showSummary="true" showDetail="false" class="errorMessage"
+			id="passwordError" for="password" />
 	</h:form>
 </h:body>
 </html>
