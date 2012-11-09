@@ -1,13 +1,14 @@
 package ch.hsr.intte.servermp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.TreeSet;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
@@ -17,13 +18,19 @@ import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
 @SessionScoped
-public class LoginController {
+public class LoginController implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String username;
 	private String password;
 
 	private User currentUser;
 	private Room selectedRoom;
+	private String createdRoom;
 
 	private RoomService roomService = RoomService.getInstance();
 	private UserService userService = UserService.getInstance();
@@ -72,9 +79,41 @@ public class LoginController {
 	public void setSelectedRoom(Room selectedRoom) {
 		this.selectedRoom = selectedRoom;
 	}
+	
+	public String getCreatedRoom() {
+		return createdRoom;
+	}
+	
+	public void setCreatedRoom(String createdRoom) {
+		this.createdRoom = createdRoom;
+	}
+	
+	public void createRoom(ActionEvent actionEvent) {
+		if(!roomNameExists()) {
+			
+			//TODO: move to roomServer ? 
+			Room room = new Room(createdRoom);
+			System.out.println(room.getName() + " room created");
+			availableRooms.add(room);
+//			roomService.persist(room);
+		}
+		else {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"Chatroom Name existiert bereits: ",
+					"Bitte wählen sie einen anderen Namen.");
+			addMessage(message);
+		}
+	}
+
+	private boolean roomNameExists() {
+		if(roomService.findById(createdRoom) == null) {
+			return false;
+		}
+		return true;
+	}
 
 	public String login() {
-		System.out.println(selectedRoom.getName() + " room selected");
 		if (userIsPermitted() && chatroomSelected()) {
 			setSessionParameters();
 			return "room.xhtml";
@@ -86,6 +125,10 @@ public class LoginController {
 			addMessage(message);
 			return "login.xhtml";
 		}
+	}
+	
+	public String register() {
+		return "registration.xhtml";
 	}
 
 	private boolean chatroomSelected() {
