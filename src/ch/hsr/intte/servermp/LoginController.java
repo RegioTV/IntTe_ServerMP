@@ -30,7 +30,8 @@ public class LoginController implements Serializable{
 
 	private User currentUser;
 	private Room selectedRoom;
-	private String createdRoom;
+	private String customRoom;
+	private boolean createRoom = false;
 
 	private RoomService roomService = RoomService.getInstance();
 	private UserService userService = UserService.getInstance();
@@ -52,6 +53,14 @@ public class LoginController implements Serializable{
 
 	public String getPassword() {
 		return password;
+	}
+	
+	public boolean getCreateRoom() {
+		return createRoom;
+	}
+	
+	public void setCreateRoom(boolean createRoom){
+		this.createRoom = createRoom;
 	}
 
 	public int getRoomCount() {
@@ -80,19 +89,19 @@ public class LoginController implements Serializable{
 		this.selectedRoom = selectedRoom;
 	}
 	
-	public String getCreatedRoom() {
-		return createdRoom;
+	public String getCustomRoom() {
+		return customRoom;
 	}
 	
-	public void setCreatedRoom(String createdRoom) {
-		this.createdRoom = createdRoom;
+	public void setCustomRoom(String createdRoom) {
+		this.customRoom = createdRoom;
 	}
 	
 	public void createRoom(ActionEvent actionEvent) {
 		if(!roomNameExists()) {
 			
 			//TODO: move to roomServer ? 
-			Room room = new Room(createdRoom);
+			Room room = new Room(customRoom);
 			System.out.println(room.getName() + " room created");
 			availableRooms.add(room);
 //			roomService.persist(room);
@@ -107,13 +116,13 @@ public class LoginController implements Serializable{
 	}
 
 	private boolean roomNameExists() {
-		if(roomService.findById(createdRoom) == null) {
+		if(roomService.findById(customRoom) == null) {
 			return false;
 		}
 		return true;
 	}
 
-	public String login() {
+	public String enter() {
 		if (userIsPermitted() && chatroomSelected()) {
 			setSessionParameters();
 			return "room.xhtml";

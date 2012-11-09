@@ -10,29 +10,26 @@
 	<title>Chat Lobby</title>
 </h:head>
 <h:body>
-	<div style="width: 500px; margin-left: auto; margin-right: auto;">
+	<div style="width: 800px; margin-left: auto; margin-right: auto;">
 		<h:form style="align:center">
 			<p:panel id="loginPanel" header="Login"
-				style="width:500px; margin-bottom:10px; margin-top:20px;">
+				style="margin-bottom:10px; margin-top:20px;">
 				<h:panelGrid columns="2">
 					<h:outputLabel for="username" value="Username: *" />
 					<p:inputText id="username" value="#{loginController.username}"
-						required="true" label="username">
+						label="username">
 					</p:inputText>
 
 					<h:outputLabel for="password" value="Passwort: *" />
 					<p:password id="password" value="#{loginController.password}"
-						required="true" label="Password" />
+						label="Password" />
 
 				</h:panelGrid>
 			</p:panel>
 
-			<p:panel id="chat" header="Chatroom wählen"
-				style="width:500px; margin-bottom:10px;">
+			<p:panel id="chat" header="Chat Auswahl"
+				style=" margin-bottom:10px;">
 				<h:panelGrid columns="1" cellspacing="10px;">
-					<h:outputLabel
-						value="Gegenwärtig sind
-		#{loginController.roomCount} Chats im Gange. Wählen sie einen Chat aus der Liste oder kreieren sie einen neuen." />
 					<p:selectOneMenu id="availableRooms"
 						value="#{loginController.selectedRoom}">
 						<f:selectItems id="roomList"
@@ -40,25 +37,30 @@
 							itemValue="#{room}" itemLabel="#{room.name}">
 						</f:selectItems>
 					</p:selectOneMenu>
+					<h:outputLabel
+						value="Gegenwärtig sind
+		#{loginController.roomCount} Chats im Gange. Wählen sie einen Chat aus der Liste oder erstellen sie einen Neuen." />
 				</h:panelGrid>
 			</p:panel>
-			<p:panel id="chatCreation" header="Chatroom erstellen"
-				style="width:500px; margin-bottom:10px;">
-				<h:panelGrid columns="2" cellspacing="10px;">
-					<h:outputLabel for="createRoom" value="Chat erstellen: " />
-					<p:inputText id="createRoom" value="#{loginController.createdRoom}"
+			<p:panel id="chatCreation" header="Chat erstellen"
+				style="margin-bottom:10px;">
+				<h:panelGrid columns="4" cellspacing="10px;">
+					<h:outputLabel for="createRoom" value="Chat Name: " />
+					<p:inputText id="createRoom" value="#{loginController.customRoom}"
 						required="false" label="createdRoom">
 					</p:inputText>
+					<p:selectBooleanCheckbox value="#{loginController.createRoom}" /> 
+					<h:outputText value="Chat erstellen und beitreten" /> 
 				</h:panelGrid>
 			</p:panel>
 			<p:messages id="messages" showDetail="true" />
-			<p:commandButton id="loginButton" value="Login" style="margin-bottom:10px;"
-				update="password,messages" action="#{loginController.login}"
-				ajax="false" />
+			<p:commandButton id="enterButton" value="Enter Chat"
+				style="margin-bottom:10px;" update="password,messages"
+				action="#{loginController.enter}" ajax="false" />
 			<br></br>
 			Falls sie noch kein Konto haben können sie sich hier <h:outputLink
 				value="registration.xhtml">
-				<h:outputText value="Registrieren" />
+				<h:outputText value="registrieren" />
 			</h:outputLink>
 		</h:form>
 	</div>

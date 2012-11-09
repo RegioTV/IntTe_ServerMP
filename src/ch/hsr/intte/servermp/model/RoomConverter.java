@@ -4,8 +4,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import ch.hsr.intte.servermp.service.RoomService;
-
 public class RoomConverter implements Converter{
 
 	@Override
