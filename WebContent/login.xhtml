@@ -10,24 +10,24 @@
 	<title>Chat Lobby</title>
 </h:head>
 <h:body>
-	<div>Willkommen in der Chat Lobby! Gegenwärtig sind
-		#{loginController.roomCount} Chats im Gange.</div>
 
 	<h:form>
-		<p:panel id="loginPanel" header="Login" style="margin-bottom:10px;">
-			<h:panelGrid columns="3">
+		<p:panel id="loginPanel" header="Login" style="margin-bottom:10px; margin-top:20px;">
+			<h:panelGrid columns="2">
 				<h:outputLabel for="username" value="Username: *" />
 				<p:inputText id="username" value="#{loginController.username}"
 					required="true" label="username">
 				</p:inputText>
+
 				<h:outputLabel for="password" value="Passwort: *" />
 				<p:password id="password" value="#{loginController.password}"
 					required="true" label="Password" />
 			</h:panelGrid>
 		</p:panel>
 
-		<p:panel id="chat" header="Chatroom wählen">
-			<h:outputLabel value="Verfügbare Chats" />
+		<p:panel id="chat" header="Chatroom wählen" style="margin-bottom:10px;">
+			<h:outputLabel value="Gegenwärtig sind
+		#{loginController.roomCount} Chats im Gange" />
 			<p:selectManyCheckbox id="availableRooms"
 				value="#{loginController.availableRooms}">
 				<f:selectItems value="#{loginController.selectedRoom}"></f:selectItems>
