@@ -29,7 +29,7 @@ public class LoginController {
 	private UserService userService = UserService.getInstance();
 	private ChatSession chatSession = ChatSession.getInstance();
 
-	private Collection<Room> availableRooms = new ArrayList<Room>();
+	private Collection<Room> availableRooms;
 
 	public void setUsername(String username) {
 		this.username = username;
@@ -52,6 +52,12 @@ public class LoginController {
 	}
 
 	public Collection<Room> getAvailableRooms() {
+		
+		//fake some rooms
+		availableRooms = new ArrayList<Room>();
+		for (int i = 0; i < 10; i++) {
+			availableRooms.add(new Room("Test-Room " + i));
+		}
 		return availableRooms;
 	}
 
@@ -68,7 +74,8 @@ public class LoginController {
 	}
 
 	public String login() {
-		if (userIsPermitted()) {
+		System.out.println(selectedRoom.getName() + " room selected");
+		if (userIsPermitted() && chatroomSelected()) {
 			setSessionParameters();
 			return "room.xhtml";
 		} else {
@@ -79,6 +86,13 @@ public class LoginController {
 			addMessage(message);
 			return "login.xhtml";
 		}
+	}
+
+	private boolean chatroomSelected() {
+		if (selectedRoom != null) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean userIsPermitted() {
