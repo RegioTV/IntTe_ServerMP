@@ -80,18 +80,11 @@ public class LoginController {
 		this.customRoomName = createdRoom;
 	}
 
-
-
 	public String enter() {
 		if (inputIsVerified() && roomIsAvailable()) {
 			setSessionParameters();
 			return "room.xhtml";
 		} else {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR,
-					"Username oder Passwort falsch: ",
-					"Falls sie noch kein Konto haben müssen sie sich registrieren");
-			addMessage(message);
 			return "login.xhtml";
 		}
 	}
@@ -122,9 +115,17 @@ public class LoginController {
 		return roomService.findById(customRoomName) != null;
 	}
 
-
 	private boolean inputIsVerified() {
-		return userExists() && passwordMatches();
+		if (userExists() && passwordMatches()) {
+			return true;
+		} else {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"Username oder Passwort falsch: ",
+					"Falls sie noch kein Konto haben müssen sie sich registrieren");
+			addMessage(message);
+			return false;
+		}
 	}
 
 	private boolean userExists() {
