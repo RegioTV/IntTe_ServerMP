@@ -4,15 +4,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
+import ch.hsr.intte.servermp.service.RoomService;
+
 public class RoomConverter implements Converter{
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		
 		String roomId = value;
-		// TODO: need Roooooommmsss :)
-//		Room room = RoomService.getInstance().findById(roomId);
-		Room room = new Room(roomId);
+		Room room = RoomService.getInstance().findById(roomId);
 		return room;
 	}
 
