@@ -1,14 +1,11 @@
 package ch.hsr.intte.servermp;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
@@ -18,26 +15,22 @@ import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
 @SessionScoped
-public class LoginController implements Serializable{
+public class LoginController {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private String username;
 	private String password;
 
 	private User currentUser;
+	private Collection<Room> availableRooms;
 	private Room selectedRoom;
-	private String customRoom;
-	private boolean createRoom = false;
+	private String customRoomName;
+	private boolean customRoom = false;
 
 	private RoomService roomService = RoomService.getInstance();
-	private UserService userService = UserService.getInstance();
-	private ChatSession chatSession = ChatSession.getInstance();
 
-	private Collection<Room> availableRooms;
+	public LoginController() {
+		availableRooms = roomService.findAll();
+	}
 
 	public void setUsername(String username) {
 		this.username = username;
@@ -54,31 +47,21 @@ public class LoginController implements Serializable{
 	public String getPassword() {
 		return password;
 	}
-	
-	public boolean getCreateRoom() {
-		return createRoom;
+
+	public boolean getCustomRoom() {
+		return customRoom;
 	}
-	
-	public void setCreateRoom(boolean createRoom){
-		this.createRoom = createRoom;
+
+	public void setCustomRoom(boolean customRoom) {
+		this.customRoom = customRoom;
 	}
 
 	public int getRoomCount() {
-		return roomService.findAll().size();
+		return availableRooms.size();
 	}
 
 	public Collection<Room> getAvailableRooms() {
-		
-		//fake some rooms
-		availableRooms = new ArrayList<Room>();
-		for (int i = 0; i < 10; i++) {
-			availableRooms.add(new Room("Test-Room " + i));
-		}
 		return availableRooms;
-	}
-
-	public void setAvailableRooms(Collection<Room> availableRooms) {
-		this.availableRooms = availableRooms;
 	}
 
 	public Room getSelectedRoom() {
@@ -88,42 +71,19 @@ public class LoginController implements Serializable{
 	public void setSelectedRoom(Room selectedRoom) {
 		this.selectedRoom = selectedRoom;
 	}
-	
-	public String getCustomRoom() {
-		return customRoom;
-	}
-	
-	public void setCustomRoom(String createdRoom) {
-		this.customRoom = createdRoom;
-	}
-	
-	public void createRoom(ActionEvent actionEvent) {
-		if(!roomNameExists()) {
-			
-			//TODO: move to roomServer ? 
-			Room room = new Room(customRoom);
-			System.out.println(room.getName() + " room created");
-			availableRooms.add(room);
-//			roomService.persist(room);
-		}
-		else {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR,
-					"Chatroom Name existiert bereits: ",
-					"Bitte wählen sie einen anderen Namen.");
-			addMessage(message);
-		}
+
+	public String getCustomRoomName() {
+		return customRoomName;
 	}
 
-	private boolean roomNameExists() {
-		if(roomService.findById(customRoom) == null) {
-			return false;
-		}
-		return true;
+	public void setCustomRoomName(String createdRoom) {
+		this.customRoomName = createdRoom;
 	}
+
+
 
 	public String enter() {
-		if (userIsPermitted() && chatroomSelected()) {
+		if (inputIsVerified() && roomIsAvailable()) {
 			setSessionParameters();
 			return "room.xhtml";
 		} else {
@@ -135,41 +95,50 @@ public class LoginController implements Serializable{
 			return "login.xhtml";
 		}
 	}
-	
-	public String register() {
-		return "registration.xhtml";
+
+	private boolean roomIsAvailable() {
+		if (customRoom) {
+			selectedRoom = createCustomRoom();
+		}
+		return selectedRoom != null;
 	}
 
-	private boolean chatroomSelected() {
-		if (selectedRoom != null) {
-			return true;
+	private Room createCustomRoom() {
+		if (!roomNameExists()) {
+			Room room = new Room(customRoomName);
+			roomService.persist(room);
+			return room;
+		} else {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"Chatroom Name existiert bereits: ",
+					"Bitte wählen sie einen anderen Namen.");
+			addMessage(message);
+			return null;
 		}
-		return false;
 	}
 
-	public boolean userIsPermitted() {
-		if (userExists() && passwordMatches()) {
-			return true;
-		}
-		return false;
+	private boolean roomNameExists() {
+		return roomService.findById(customRoomName) != null;
+	}
+
+
+	private boolean inputIsVerified() {
+		return userExists() && passwordMatches();
 	}
 
 	private boolean userExists() {
-		if ((currentUser = userService.findById(username)) != null) {
-			return true;
-		}
-		return false;
+		UserService userService = UserService.getInstance();
+		currentUser = userService.findById(username);
+		return currentUser != null;
 	}
 
 	private boolean passwordMatches() {
-
-		if (currentUser.getPassword().equals(password)) {
-			return true;
-		}
-		return false;
+		return currentUser.getPassword().equals(password);
 	}
 
 	private void setSessionParameters() {
+		ChatSession chatSession = ChatSession.getInstance();
 		chatSession.setUser(currentUser);
 		chatSession.setRoom(selectedRoom);
 	}

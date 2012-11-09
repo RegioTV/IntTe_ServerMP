@@ -46,10 +46,10 @@
 				style="margin-bottom:10px;">
 				<h:panelGrid columns="4" cellspacing="10px;">
 					<h:outputLabel for="createRoom" value="Chat Name: " />
-					<p:inputText id="createRoom" value="#{loginController.customRoom}"
+					<p:inputText id="createRoom" value="#{loginController.customRoomName}"
 						required="false" label="createdRoom">
 					</p:inputText>
-					<p:selectBooleanCheckbox value="#{loginController.createRoom}" /> 
+					<p:selectBooleanCheckbox value="#{loginController.customRoom}" /> 
 					<h:outputText value="Chat erstellen und beitreten" /> 
 				</h:panelGrid>
 			</p:panel>
