@@ -24,7 +24,6 @@ public class LoginController {
 
 	private User currentUser;
 	private Room selectedRoom;
-	
 
 	private RoomService roomService = RoomService.getInstance();
 	private UserService userService = UserService.getInstance();
@@ -32,7 +31,7 @@ public class LoginController {
 
 	private Collection<Room> availableRooms = new ArrayList<Room>();
 
-			public void setUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -51,20 +50,19 @@ public class LoginController {
 	public int getRoomCount() {
 		return roomService.findAll().size();
 	}
-	
+
 	public Collection<Room> getAvailableRooms() {
-		availableRooms.add(new Room("Test-Room"));
 		return availableRooms;
 	}
-	
+
 	public void setAvailableRooms(Collection<Room> availableRooms) {
 		this.availableRooms = availableRooms;
 	}
-	
+
 	public Room getSelectedRoom() {
 		return selectedRoom;
 	}
-	
+
 	public void setSelectedRoom(Room selectedRoom) {
 		this.selectedRoom = selectedRoom;
 	}
@@ -90,11 +88,6 @@ public class LoginController {
 		return false;
 	}
 
-	private void setSessionParameters() {
-		chatSession.setUser(currentUser);
-		chatSession.setRoom(selectedRoom);
-	}
-
 	private boolean userExists() {
 		if ((currentUser = userService.findById(username)) != null) {
 			return true;
@@ -108,6 +101,11 @@ public class LoginController {
 			return true;
 		}
 		return false;
+	}
+
+	private void setSessionParameters() {
+		chatSession.setUser(currentUser);
+		chatSession.setRoom(selectedRoom);
 	}
 
 	private void addMessage(FacesMessage message) {
