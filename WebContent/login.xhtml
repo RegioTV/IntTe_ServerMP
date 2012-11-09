@@ -1,32 +1,45 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Chat Lobby</title>
 </h:head>
 <h:body>
-	<div>Willkommen in der Chat Lobby! Gegenwärtig sind #{chatApplicationBean.count} Chats im Gange.</div>
+	<div>Willkommen in der Chat Lobby! Gegenwärtig sind
+		#{loginController.roomCount} Chats im Gange.</div>
+
 	<h:form>
-		Falls du registriert bist, gib dein Benutzername und Passwort ein.
-		Falls du nicht registriert bist, wähle einen Benutzernamen und lasse das Passwortfeld leer.
-		Gib deinen Namen ein:
-		<h:inputText id="name" value="#{chatApplicationBean.name}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
-		 deinen Namen ein:
-		<h:inputText id="username" value="#{chatApplicationBean.username}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
-		und erzeuge einen neuen Chat mit Namen:
-		<h:inputText id="newChat" value="#{chatApplicationBean.newChat}">
-		</h:inputText>
-		<h:commandButton id="createNewChat" value="neu" action="#{chatApplicationBean.createNewChat}" />
-		oder wähle einen Chat aus:
-		<h:selectOneListbox id="chatList">
-		</h:selectOneListbox>
-		<h:commandButton id="enterChat" value="beitreten" action="#{chatApplicationBean.enterChat}" />
+		<p:panel id="loginPanel" header="Login" style="margin-bottom:10px;">
+			<h:panelGrid columns="3">
+				<h:outputLabel for="username" value="Username: *" />
+				<p:inputText id="username" value="#{loginController.username}"
+					required="true" label="username">
+				</p:inputText>
+				<p:message for="username" />
+
+				<h:outputLabel for="password" value="Passwort: *" />
+				<p:password id="password" value="#{loginController.password}"
+					required="true" label="Password" />
+			</h:panelGrid>
+		</p:panel>
+
+		<p:panel id="chat" header="Chatroom wählen">
+			<h:outputLabel value="Verfügbare Chats" />
+			<p:selectManyCheckbox id="availableRooms"
+				value="#{loginController.availableRooms}">
+				<f:selectItems value="#{loginController.selectedRoom}"></f:selectItems>
+			</p:selectManyCheckbox>
+		</p:panel>
+		<p:messages id="messages" showDetail="true" />
+		<p:commandButton id="loginButton" value="Login"
+			update="password,messages" action="#{loginController.login}"
+			ajax="false" />
+
 		<h:link target="_top" href="/registration.xhtml">Ich möchte mich registrieren.</h:link>
 	</h:form>
 </h:body>
