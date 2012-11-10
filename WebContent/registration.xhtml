@@ -8,33 +8,35 @@
 
 <h:head>
 	<title>Chat Registration</title>
+	<h:outputStylesheet name="styles.css" />
 </h:head>
 <h:body>
-	<h:form id="registrationForm">
-		<p:growl id="growl" showDetail="true" autoUpdate="false" sticky="true" />
-		<!-- requiredMessage="#{registration_req_username}"-->
-		<p:panelGrid columns="2">
-			<f:facet name="header">
-				<p>Du kannst dich mit untenstehendem Formular registrieren.</p>
-			</f:facet>
+	<p:panel header="Chat Registration" id="registrationPanel"
+		styleClass="contentPanel">
+		<h:form id="registrationForm">
+			<p:growl id="growl" showDetail="true" autoUpdate="false"
+				sticky="true" />
 
-			<p:outputLabel for="username" value="Benutzername:" />
-			<p:inputText id="username" label="Benutzername"
-				value="#{registrationController.username}"
-				validator="#{registrationController.checkUsername}" />
+			<h:outputText
+				value="Du kannst dich mit untenstehendem Formular registrieren." />
 
-			<p:outputLabel for="password" value="Passwort:" />
-			<p:password id="password" feedback="true"
-				value="#{registrationController.password}"
-				validator="#{registrationController.checkPassword}" />
+			<p:panelGrid columns="2">
+				<p:outputLabel for="username" value="Benutzername:" />
+				<p:inputText id="username" label="Benutzername"
+					value="#{registrationController.username}"
+					validator="#{registrationController.checkUsername}" />
 
-			<f:facet name="footer">
-				<!-- update=":registrationForm"  -->
-				<p:commandButton id="register" value="registrieren"
-					action="#{registrationController.register}" update=":registrationForm" />
-			</f:facet>
-		</p:panelGrid>
-	</h:form>
+				<p:outputLabel for="password" value="Passwort:" />
+				<p:password id="password" feedback="true"
+					value="#{registrationController.password}"
+					validator="#{registrationController.checkPassword}" />
+			</p:panelGrid>
+
+			<p:commandButton id="register" value="registrieren"
+				action="#{registrationController.register}"
+				update=":registrationForm" />
+		</h:form>
+	</p:panel>
 </h:body>
 </html>
 

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.contentPanel {
+	margin: 20px auto 0;
+	width: 800px;
+}
+
+#registrationForm table {
+	margin: 10px 0;
+}
+
+#registrationForm tr,
+#registrationForm td {
+	background: none;
+	border: none;
+}

@@ -34,10 +34,9 @@ public class RegistrationController {
 			return "login.xhtml";
 		} catch (ValidatorException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			FacesMessage msg = new FacesMessage(
+			context.addMessage("form:growl", new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, e.getFacesMessage()
-							.getSummary(), e.getFacesMessage().getDetail());
-			context.addMessage("form:growl", msg);
+							.getSummary(), e.getFacesMessage().getDetail()));
 			return "register.xhtml";
 		}
 	}
