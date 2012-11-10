@@ -6,9 +6,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
 import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
@@ -88,7 +86,6 @@ public class LoginController {
 		if (roomIsAvailable() && inputIsVerified()) {
 			setSessionParameters();
 			generateMessage(FacesMessage.SEVERITY_INFO, "Login erfolgreich", "");
-
 			return "room.xhtml";
 		} else {
 			return "login.xhtml";
