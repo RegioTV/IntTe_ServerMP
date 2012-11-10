@@ -7,32 +7,32 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Chat Registration</title>
+	<title>#{messages['registration.title']}</title>
 	<h:outputStylesheet name="styles.css" />
 </h:head>
 <h:body>
-	<p:panel header="Chat Registration" id="registrationPanel"
+	<p:panel header="#{messages['registration.title']}" id="registrationPanel"
 		styleClass="contentPanel">
 		<h:form id="registrationForm">
 			<p:growl id="growl" showDetail="true" autoUpdate="false"
 				sticky="true" />
 
 			<h:outputText
-				value="Du kannst dich mit untenstehendem Formular registrieren." />
+				value="#{messages['registration.headline']}" />
 
 			<p:panelGrid columns="2">
-				<p:outputLabel for="username" value="Benutzername:" />
-				<p:inputText id="username" label="Benutzername"
+				<p:outputLabel for="username" value="#{messages['username.label']}" />
+				<p:inputText id="username" label="#{messages['username.label']}"
 					value="#{registrationController.username}"
 					validator="#{registrationController.checkUsername}" />
 
-				<p:outputLabel for="password" value="Passwort:" />
+				<p:outputLabel for="password" value="#{messages['password.label']}" />
 				<p:password id="password" feedback="true"
 					value="#{registrationController.password}"
 					validator="#{registrationController.checkPassword}" />
 			</p:panelGrid>
 
-			<p:commandButton id="register" value="registrieren"
+			<p:commandButton id="register" value="#{messages['registration.register']}"
 				action="#{registrationController.register}"
 				update=":registrationForm" />
 		</h:form>
