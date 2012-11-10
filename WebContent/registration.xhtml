@@ -3,27 +3,44 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Chat Registration</title>
 </h:head>
 <h:body>
-	<div>Du kannst dich mit untenstehendem Formular registrieren.</div>
-	<h:form>
-		Benutzername:
-		<h:inputText id="username" value="#{registrationController.username}"
-			validator="#{registrationController.checkUsername}" required="true" />
-		Passwort:
-		<h:inputSecret id="password"
-			value="#{registrationController.password}" required="true" />
-		<h:commandButton id="register" value="registrieren"
-			action="#{registrationController.register}" />
-		<br />
-		<h:message showSummary="true" showDetail="false" class="errorMessage"
-			id="usernameError" for="username" />
-		<h:message showSummary="true" showDetail="false" class="errorMessage"
-			id="passwordError" for="password" />
+	<p:growl id="growl" showDetail="true" autoUpdate="false" />
+
+	<h:form id="registrationForm">
+		<!-- requiredMessage="#{registration_req_username}"-->
+		<p:panelGrid columns="2">
+			<f:facet name="header">
+				<p>Du kannst dich mit untenstehendem Formular registrieren.</p>
+			</f:facet>
+
+			<p:outputLabel for="username" value="Benutzername:" />
+			<p:inputText id="username" label="Benutzername"
+				value="#{registrationController.username}"
+				validator="#{registrationController.checkUsername}" required="true">
+			</p:inputText>
+
+			<p:outputLabel for="password" value="Passwort:" />
+			<p:password id="password" feedback="true"
+				value="#{registrationController.password}" required="true">
+				<f:validateLength minimum="4" />
+			</p:password>
+
+			<f:facet name="footer">
+			<!-- update=":registrationForm"  -->
+				<p:commandButton id="register" value="registrieren"
+					action="#{registrationController.register}" />
+				<p:message showSummary="true" showDetail="false"
+					styleClass="errorMessage" id="usernameError" for="username" />
+				<p:message showSummary="true" showDetail="false"
+					styleClass="errorMessage" id="passwordError" for="password" />
+			</f:facet>
+		</p:panelGrid>
 	</h:form>
 </h:body>
 </html>
