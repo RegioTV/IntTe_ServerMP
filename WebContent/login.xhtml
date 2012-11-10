@@ -3,39 +3,68 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>Chat Lobby</title>
 </h:head>
 <h:body>
-	<div>Willkommen in der Chat Lobby! Gegenwärtig sind
-		#{chatApplicationBean.count} Chats im Gange.</div>
-	<h:form>
-		Falls du registriert bist, gib dein Benutzername und Passwort ein.
-		Falls du nicht registriert bist, wähle einen Benutzernamen und lasse das Passwortfeld leer.
-		Gib deinen Namen ein:
-		<h:inputText id="name" value="#{chatApplicationBean.name}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
-		 deinen Namen ein:
-		<h:inputText id="username" value="#{chatApplicationBean.username}">
-			<f:validateRequired></f:validateRequired>
-		</h:inputText>
-		und erzeuge einen neuen Chat mit Namen:
-		<h:inputText id="newChat" value="#{chatApplicationBean.newChat}">
-		</h:inputText>
-		<h:commandButton id="createNewChat" value="neu"
-			action="#{chatApplicationBean.createNewChat}" />
-		oder wähle einen Chat aus:
-		<h:selectOneListbox id="chatList">
-		</h:selectOneListbox>
-		<h:commandButton id="enterChat" value="beitreten"
-			action="#{chatApplicationBean.enterChat}" />
-		<h:link target="_top" href="/registration.xhtml">Ich möchte mich registrieren.</h:link>
-	</h:form>
+	<div style="width: 800px; margin-left: auto; margin-right: auto;">
+		<h:form style="align:center">
+			<p:panel id="loginPanel" header="Login"
+				style="margin-bottom:10px; margin-top:20px;">
+				<h:panelGrid columns="2">
+					<h:outputLabel for="username" value="Username: *" />
+					<p:inputText id="username" value="#{loginController.username}"
+						label="username">
+					</p:inputText>
+
+					<h:outputLabel for="password" value="Passwort: *" />
+					<p:password id="password" value="#{loginController.password}"
+						label="Password" />
+
+				</h:panelGrid>
+			</p:panel>
+
+			<p:panel id="chat" header="Chat Auswahl"
+				style=" margin-bottom:10px;">
+				<h:panelGrid columns="1" cellspacing="10px;">
+					<p:selectOneMenu id="availableRooms"
+						value="#{loginController.selectedRoom}">
+						<f:selectItems id="roomList"
+							value="#{loginController.availableRooms}" var="room"
+							itemValue="#{room}" itemLabel="#{room.name}">
+						</f:selectItems>
+					</p:selectOneMenu>
+					<h:outputLabel
+						value="Gegenwärtig sind
+		#{loginController.roomCount} Chats im Gange. Wählen sie einen Chat aus der Liste oder erstellen sie einen Neuen." />
+				</h:panelGrid>
+			</p:panel>
+			<p:panel id="chatCreation" header="Chat erstellen"
+				style="margin-bottom:10px;">
+				<h:panelGrid columns="4" cellspacing="10px;">
+					<h:outputLabel for="createRoom" value="Chat Name: " />
+					<p:inputText id="createRoom" value="#{loginController.customRoomName}"
+						required="false" label="createdRoom">
+					</p:inputText>
+					<p:selectBooleanCheckbox value="#{loginController.customRoom}" /> 
+					<h:outputText value="Chat erstellen und beitreten" /> 
+				</h:panelGrid>
+			</p:panel>
+			<p:messages id="messages" showDetail="true" />
+			<p:commandButton id="enterButton" value="Enter Chat"
+				style="margin-bottom:10px;" update="messages"
+				action="#{loginController.enter}" ajax="false" />
+			<br></br>
+			Falls sie noch kein Konto haben können sie sich hier <h:outputLink
+				value="registration.xhtml">
+				<h:outputText value="registrieren" />
+			</h:outputLink>
+		</h:form>
+	</div>
 </h:body>
 </html>
-
 
 
