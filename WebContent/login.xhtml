@@ -13,6 +13,8 @@
 <h:body>
 	<div class="contentPanel">
 		<h:form>
+			<p:growl id="growl" showDetail="true" autoUpdate="false"
+				sticky="true" />
 			<p:panel id="loginPanel" header="Login" style="margin-bottom:10px;">
 				<h:panelGrid columns="2">
 					<h:outputLabel for="username" value="Username: *" />
@@ -49,13 +51,14 @@
 						value="#{loginController.customRoomName}" required="false"
 						label="createdRoom" disabled="#{!loginController.customRoom}">
 					</p:inputText>
-					<p:selectBooleanCheckbox id="customChatCheckbox" value="#{loginController.customRoom}">
-						<f:ajax execute="customChatCheckbox" render="roomNameInput" event="change" />
+					<p:selectBooleanCheckbox id="customChatCheckbox"
+						value="#{loginController.customRoom}">
+						<f:ajax execute="customChatCheckbox" render="roomNameInput"
+							event="change" />
 					</p:selectBooleanCheckbox>
 					<h:outputText value="Chat erstellen und beitreten" />
 				</h:panelGrid>
 			</p:panel>
-			<p:messages id="messages" showDetail="true" />
 			<p:commandButton id="enterButton" value="Enter Chat"
 				style="margin-bottom:10px;" update="messages"
 				action="#{loginController.enter}" ajax="false" />

@@ -3,9 +3,12 @@ package ch.hsr.intte.servermp;
 import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
@@ -17,14 +20,14 @@ import ch.hsr.intte.servermp.util.ChatSession;
 @SessionScoped
 public class LoginController {
 
-	private String username;
-	private String password;
+	private String username = "";
+	private String password = "";
 
 	private User currentUser;
 	private Room selectedRoom;
 	private Collection<Room> availableRooms;
 
-	private String customRoomName;
+	private String customRoomName = "";
 	private boolean customRoom = false;
 
 	private RoomService roomService = RoomService.getInstance();
@@ -56,7 +59,7 @@ public class LoginController {
 	public void setCustomRoom(boolean customRoom) {
 		this.customRoom = customRoom;
 	}
-	
+
 	public int getRoomCount() {
 		return availableRooms.size();
 	}
@@ -82,8 +85,10 @@ public class LoginController {
 	}
 
 	public String enter() {
-		if (inputIsVerified() && roomIsAvailable()) {
+		if (roomIsAvailable() && inputIsVerified()) {
 			setSessionParameters();
+			generateMessage(FacesMessage.SEVERITY_INFO, "Login erfolgreich", "");
+
 			return "room.xhtml";
 		} else {
 			return "login.xhtml";
@@ -97,40 +102,33 @@ public class LoginController {
 		return selectedRoom != null;
 	}
 
-	private Room createCustomRoom() {
-		if (!roomNameExists()) {
-			Room room = new Room(customRoomName);
-			roomService.persist(room);
-			return room;
-		} else {
-			generateErrorMessage("Chatroom Name existiert bereits: ", 
-					"Bitte wählen sie einen anderen Namen.");
-			return null;
-		}
-	}
-
-	private boolean roomNameExists() {
-		return roomService.findById(customRoomName) != null;
-	}
-
-	private boolean inputIsVerified() {
-		if (userExists() && passwordMatches()) {
+	public boolean inputIsVerified() {
+		currentUser = UserService.getInstance().findById(username);
+		if (currentUser != null && currentUser.getPassword().equals(password)) {
 			return true;
 		} else {
-			generateErrorMessage("Username oder Passwort falsch: ",
+			generateMessage(FacesMessage.SEVERITY_ERROR,
+					"Username oder Passwort falsch: ",
 					"Falls sie noch kein Konto haben müssen sie sich registrieren");
 			return false;
 		}
 	}
 
-	private boolean userExists() {
-		UserService userService = UserService.getInstance();
-		currentUser = userService.findById(username);
-		return currentUser != null;
+	private Room createCustomRoom() {
+		if (!roomNameExists() && !customRoomName.equals("")) {
+			Room room = new Room(customRoomName);
+			roomService.persist(room);
+			return room;
+		} else {
+			generateMessage(FacesMessage.SEVERITY_ERROR,
+					"Chatroom Name existiert bereits: ",
+					"Bitte wählen sie einen anderen Namen.");
+			return null;
+		}
 	}
 
-	private boolean passwordMatches() {
-		return currentUser.getPassword().equals(password);
+	public boolean roomNameExists() {
+		return roomService.findById(customRoomName) != null;
 	}
 
 	private void setSessionParameters() {
@@ -139,10 +137,10 @@ public class LoginController {
 		chatSession.setRoom(selectedRoom);
 	}
 
-	private void generateErrorMessage(String summary, String detail) {
-		FacesMessage errorMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
-		FacesContext.getCurrentInstance().addMessage(null, errorMsg);
+	private void generateMessage(Severity severity, String summary,
+			String detail) {
+		FacesMessage message = new FacesMessage(severity, summary, detail);
+		FacesContext.getCurrentInstance().addMessage("form:growl", message);
 	}
-		
 
 }
