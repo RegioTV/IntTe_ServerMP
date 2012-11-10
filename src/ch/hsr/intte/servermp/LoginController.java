@@ -21,8 +21,9 @@ public class LoginController {
 	private String password;
 
 	private User currentUser;
-	private Collection<Room> availableRooms;
 	private Room selectedRoom;
+	private Collection<Room> availableRooms;
+
 	private String customRoomName;
 	private boolean customRoom = false;
 
@@ -55,7 +56,7 @@ public class LoginController {
 	public void setCustomRoom(boolean customRoom) {
 		this.customRoom = customRoom;
 	}
-
+	
 	public int getRoomCount() {
 		return availableRooms.size();
 	}
@@ -102,11 +103,8 @@ public class LoginController {
 			roomService.persist(room);
 			return room;
 		} else {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR,
-					"Chatroom Name existiert bereits: ",
+			generateErrorMessage("Chatroom Name existiert bereits: ", 
 					"Bitte wählen sie einen anderen Namen.");
-			addMessage(message);
 			return null;
 		}
 	}
@@ -119,11 +117,8 @@ public class LoginController {
 		if (userExists() && passwordMatches()) {
 			return true;
 		} else {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR,
-					"Username oder Passwort falsch: ",
+			generateErrorMessage("Username oder Passwort falsch: ",
 					"Falls sie noch kein Konto haben müssen sie sich registrieren");
-			addMessage(message);
 			return false;
 		}
 	}
@@ -144,8 +139,10 @@ public class LoginController {
 		chatSession.setRoom(selectedRoom);
 	}
 
-	private void addMessage(FacesMessage message) {
-		FacesContext.getCurrentInstance().addMessage(null, message);
+	private void generateErrorMessage(String summary, String detail) {
+		FacesMessage errorMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
+		FacesContext.getCurrentInstance().addMessage(null, errorMsg);
 	}
+		
 
 }
