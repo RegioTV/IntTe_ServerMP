@@ -21,8 +21,9 @@ public class LoginController {
 	private String password;
 
 	private User currentUser;
-	private Collection<Room> availableRooms;
 	private Room selectedRoom;
+	private Collection<Room> availableRooms;
+
 	private String customRoomName;
 	private boolean customRoom = false;
 
@@ -55,7 +56,7 @@ public class LoginController {
 	public void setCustomRoom(boolean customRoom) {
 		this.customRoom = customRoom;
 	}
-
+	
 	public int getRoomCount() {
 		return availableRooms.size();
 	}

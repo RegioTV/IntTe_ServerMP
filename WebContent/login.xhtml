@@ -27,8 +27,7 @@
 				</h:panelGrid>
 			</p:panel>
 
-			<p:panel id="chat" header="Chat Auswahl"
-				style=" margin-bottom:10px;">
+			<p:panel id="chat" header="Chat Auswahl" style=" margin-bottom:10px;">
 				<h:panelGrid columns="1" cellspacing="10px;">
 					<p:selectOneMenu id="availableRooms"
 						value="#{loginController.selectedRoom}">
@@ -45,12 +44,15 @@
 			<p:panel id="chatCreation" header="Chat erstellen"
 				style="margin-bottom:10px;">
 				<h:panelGrid columns="4" cellspacing="10px;">
-					<h:outputLabel for="createRoom" value="Chat Name: " />
-					<p:inputText id="createRoom" value="#{loginController.customRoomName}"
-						required="false" label="createdRoom">
+					<h:outputLabel for="roomNameInput" value="Chat Name: " />
+					<p:inputText id="roomNameInput"
+						value="#{loginController.customRoomName}" required="false"
+						label="createdRoom" disabled="#{!loginController.customRoom}">
 					</p:inputText>
-					<p:selectBooleanCheckbox value="#{loginController.customRoom}" /> 
-					<h:outputText value="Chat erstellen und beitreten" /> 
+					<p:selectBooleanCheckbox id="customChatCheckbox" value="#{loginController.customRoom}">
+						<f:ajax execute="customChatCheckbox" render="roomNameInput" event="change" />
+					</p:selectBooleanCheckbox>
+					<h:outputText value="Chat erstellen und beitreten" />
 				</h:panelGrid>
 			</p:panel>
 			<p:messages id="messages" showDetail="true" />
