@@ -1,6 +1,7 @@
 package ch.hsr.intte.servermp;
 
 import java.util.Collection;
+import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -29,9 +30,13 @@ public class LoginController {
 	private boolean customRoom = false;
 
 	private RoomService roomService = RoomService.getInstance();
+	private ResourceBundle messages;
 
 	public LoginController() {
 		availableRooms = roomService.findAll();
+		FacesContext context = FacesContext.getCurrentInstance();
+		messages = context.getApplication().getResourceBundle(context,
+				"messages");
 	}
 
 	public void setUsername(String username) {
@@ -85,7 +90,8 @@ public class LoginController {
 	public String enter() {
 		if (roomIsAvailable() && inputIsVerified()) {
 			setSessionParameters();
-			generateMessage(FacesMessage.SEVERITY_INFO, "Login erfolgreich", "");
+			generateMessage(FacesMessage.SEVERITY_INFO,
+					messages.getString("lobby.success"), "");
 			return "room.xhtml";
 		} else {
 			return "login.xhtml";
@@ -105,8 +111,8 @@ public class LoginController {
 			return true;
 		} else {
 			generateMessage(FacesMessage.SEVERITY_ERROR,
-					"Username oder Passwort falsch: ",
-					"Falls sie noch kein Konto haben müssen sie sich registrieren");
+					messages.getString("lobby.login.userError.summary"),
+					messages.getString("lobby.login.userError.detail"));
 			return false;
 		}
 	}
@@ -118,8 +124,8 @@ public class LoginController {
 			return room;
 		} else {
 			generateMessage(FacesMessage.SEVERITY_ERROR,
-					"Chatroom Name existiert bereits: ",
-					"Bitte wählen sie einen anderen Namen.");
+					messages.getString("lobby.chatcreation.namingError.summary"),
+					messages.getString("lobby.chatcreation.namingError.detail"));
 			return null;
 		}
 	}

@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Chat Lobby</title>
+	<title>#{messages['lobby.title']}</title>
 	<h:outputStylesheet name="styles.css" />
 </h:head>
 <h:body>
@@ -15,21 +15,21 @@
 		<h:form>
 			<p:growl id="growl" showDetail="true" autoUpdate="false"
 				sticky="true" />
-			<p:panel id="loginPanel" header="Login" style="margin-bottom:10px;">
+			<p:panel id="loginPanel" header="#{messages['lobby.login.title']}" style="margin-bottom:10px;">
 				<h:panelGrid columns="2">
-					<h:outputLabel for="username" value="Username: *" />
+					<h:outputLabel for="username" value="#{messages['username.label']}" />
 					<p:inputText id="username" value="#{loginController.username}"
 						label="username">
 					</p:inputText>
 
-					<h:outputLabel for="password" value="Passwort: *" />
+					<h:outputLabel for="password" value="#{messages['password.label']}" />
 					<p:password id="password" value="#{loginController.password}"
 						label="Password" />
 
 				</h:panelGrid>
 			</p:panel>
 
-			<p:panel id="chat" header="Chat Auswahl" style=" margin-bottom:10px;">
+			<p:panel id="chat" header="#{messages['lobby.chatselection.title']}" style=" margin-bottom:10px;">
 				<h:panelGrid columns="1" cellspacing="10px;">
 					<p:selectOneMenu id="availableRooms"
 						value="#{loginController.selectedRoom}">
@@ -39,14 +39,15 @@
 						</f:selectItems>
 					</p:selectOneMenu>
 					<h:outputLabel
-						value="Gegenwärtig sind
-		#{loginController.roomCount} Chats im Gange. Wählen sie einen Chat aus der Liste oder erstellen sie einen Neuen." />
+						value="#{messages['lobby.chatselection.availableChats']}
+		#{loginController.roomCount}" />
+		<h:outputLabel value="#{messages['lobby.chatselection.instruction']}"/>
 				</h:panelGrid>
 			</p:panel>
-			<p:panel id="chatCreation" header="Chat erstellen"
+			<p:panel id="chatCreation" header="#{messages['lobby.chatcreation.title']}"
 				style="margin-bottom:10px;">
 				<h:panelGrid columns="4" cellspacing="10px;">
-					<h:outputLabel for="roomNameInput" value="Chat Name: " />
+					<h:outputLabel for="roomNameInput" value="#{messages['lobby.chatcreation.label']}" />
 					<p:inputText id="roomNameInput"
 						value="#{loginController.customRoomName}" required="false"
 						label="createdRoom" disabled="#{!loginController.customRoom}">
@@ -56,16 +57,17 @@
 						<f:ajax execute="customChatCheckbox" render="roomNameInput"
 							event="change" />
 					</p:selectBooleanCheckbox>
-					<h:outputText value="Chat erstellen und beitreten" />
+					<h:outputText value="#{messages['lobby.chatcreation.selectionLabel']}" />
 				</h:panelGrid>
 			</p:panel>
-			<p:commandButton id="enterButton" value="Enter Chat"
+			<p:commandButton id="enterButton" value="#{messages['lobby.enter']}"
 				style="margin-bottom:10px;" update="messages"
 				action="#{loginController.enter}" ajax="false" />
 			<br></br>
-			Falls sie noch kein Konto haben können sie sich hier <h:outputLink
+			<h:outputText value="#{messages['lobby.registrationText']}"/>
+			 <h:outputLink
 				value="registration.xhtml">
-				<h:outputText value="registrieren" />
+				<h:outputText value="#{messages['lobby.registrationLink']}" />
 			</h:outputLink>
 		</h:form>
 	</div>
