@@ -1,13 +1,11 @@
 package ch.hsr.intte.servermp;
 
+import java.io.Serializable;
 import java.util.Collection;
-import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 
 import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
@@ -16,28 +14,19 @@ import ch.hsr.intte.servermp.service.UserService;
 import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
-@SessionScoped
-public class LoginController {
+@ViewScoped
+public class LoginController implements Serializable {
+
+	private static final long serialVersionUID = 2238062448502459051L;
 
 	private String username = "";
 	private String password = "";
 
 	private User currentUser;
 	private Room selectedRoom;
-	private Collection<Room> availableRooms;
 
 	private String customRoomName = "";
 	private boolean customRoom = false;
-
-	private RoomService roomService = RoomService.getInstance();
-	private ResourceBundle messages;
-
-	public LoginController() {
-		availableRooms = roomService.findAll();
-		FacesContext context = FacesContext.getCurrentInstance();
-		messages = context.getApplication().getResourceBundle(context,
-				"messages");
-	}
 
 	public void setUsername(String username) {
 		this.username = username;
@@ -64,11 +53,11 @@ public class LoginController {
 	}
 
 	public int getRoomCount() {
-		return availableRooms.size();
+		return RoomService.getInstance().findAll().size();
 	}
 
 	public Collection<Room> getAvailableRooms() {
-		return availableRooms;
+		return RoomService.getInstance().findAll();
 	}
 
 	public Room getSelectedRoom() {
@@ -90,8 +79,7 @@ public class LoginController {
 	public String enter() {
 		if (roomIsAvailable() && inputIsVerified()) {
 			setSessionParameters();
-			generateMessage(FacesMessage.SEVERITY_INFO,
-					messages.getString("lobby.success"), "");
+			ChatSession.getInstance().addMessage(FacesMessage.SEVERITY_INFO, "lobby.success.summary", "lobby.success.detail");
 			return "room.xhtml";
 		} else {
 			return "login.xhtml";
@@ -107,43 +95,30 @@ public class LoginController {
 
 	public boolean inputIsVerified() {
 		currentUser = UserService.getInstance().findById(username);
-		if (currentUser != null && currentUser.getPassword().equals(password)) {
+		if (UserService.getInstance().exists(username) && UserService.getInstance().findById(username).verify(password)) {
 			return true;
 		} else {
-			generateMessage(FacesMessage.SEVERITY_ERROR,
-					messages.getString("lobby.login.userError.summary"),
-					messages.getString("lobby.login.userError.detail"));
+			ChatSession.getInstance().addMessage(FacesMessage.SEVERITY_ERROR, "lobby.login.userError.summary",
+					"lobby.login.userError.detail");
 			return false;
 		}
 	}
 
 	private Room createCustomRoom() {
-		if (!roomNameExists() && !customRoomName.equals("")) {
+		if (!RoomService.getInstance().exists(customRoomName) && !customRoomName.isEmpty()) {
 			Room room = new Room(customRoomName);
-			roomService.persist(room);
+			RoomService.getInstance().persist(room);
 			return room;
 		} else {
-			generateMessage(FacesMessage.SEVERITY_ERROR,
-					messages.getString("lobby.chatcreation.namingError.summary"),
-					messages.getString("lobby.chatcreation.namingError.detail"));
+			ChatSession.getInstance().addMessage(FacesMessage.SEVERITY_ERROR, "lobby.chatcreation.namingError.summary",
+					"lobby.chatcreation.namingError.detail");
 			return null;
 		}
 	}
 
-	public boolean roomNameExists() {
-		return roomService.findById(customRoomName) != null;
-	}
-
 	private void setSessionParameters() {
-		ChatSession chatSession = ChatSession.getInstance();
-		chatSession.setUser(currentUser);
-		chatSession.setRoom(selectedRoom);
-	}
-
-	private void generateMessage(Severity severity, String summary,
-			String detail) {
-		FacesMessage message = new FacesMessage(severity, summary, detail);
-		FacesContext.getCurrentInstance().addMessage("form:growl", message);
+		ChatSession.getInstance().setUser(currentUser);
+		ChatSession.getInstance().setRoom(selectedRoom);
 	}
 
 }

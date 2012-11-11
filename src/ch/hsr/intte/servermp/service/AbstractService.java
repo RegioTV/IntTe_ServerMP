@@ -21,22 +21,22 @@ public abstract class AbstractService<Entity> {
 	protected AbstractService(String filename) {
 		this.filename = filename;
 
-		entitiesById = loadEntitiesById();
+		entitiesById = loadFromFile();
 	}
 
-	private Map<String, Entity> loadEntitiesById() {
+	private Map<String, Entity> loadFromFile() {
 		try (Scanner scanner = new Scanner(openFile())) {
-			return tryLoadEntitiesById(scanner);
+			return tryLoadFromFile(scanner);
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
 	}
 
-	private Map<String, Entity> tryLoadEntitiesById(Scanner scanner) {
+	private Map<String, Entity> tryLoadFromFile(Scanner scanner) {
 		Map<String, Entity> entitiesById = new HashMap<>();
 		while (scanner.hasNextLine())
 			try {
-				Entity entity = convert(scanner.nextLine());
+				Entity entity = deserialize(scanner.nextLine());
 				entitiesById.put(getId(entity), entity);
 			} catch (RuntimeException exception) {
 				System.err.println(exception);
@@ -45,10 +45,14 @@ public abstract class AbstractService<Entity> {
 		return entitiesById;
 	}
 
+	public boolean exists(String id) {
+		return entitiesById.containsKey(id);
+	}
+
 	public void persist(Entity entity) {
 		try {
 			lock.lock();
-			save(entity);
+			saveToFile(entity);
 			entitiesById.put(getId(entity), entity);
 		} finally {
 			lock.unlock();
@@ -73,16 +77,16 @@ public abstract class AbstractService<Entity> {
 		}
 	}
 
-	private void save(Entity entity) {
+	private void saveToFile(Entity entity) {
 		try (FileWriter writer = new FileWriter(openFile(), true)) {
-			trySave(entity, writer);
+			trySaveToFile(entity, writer);
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
 	}
 
-	private void trySave(Entity entity, FileWriter writer) throws IOException {
-		writer.write(convert(entity));
+	private void trySaveToFile(Entity entity, FileWriter writer) throws IOException {
+		writer.write(serialize(entity));
 		writer.write('\n');
 	}
 
@@ -96,8 +100,8 @@ public abstract class AbstractService<Entity> {
 
 	abstract String getId(Entity entity);
 
-	abstract Entity convert(String line);
+	abstract Entity deserialize(String line);
 
-	abstract String convert(Entity entity);
+	abstract String serialize(Entity entity);
 
 }

@@ -1,96 +1,68 @@
 package ch.hsr.intte.servermp;
 
-import java.util.ResourceBundle;
+import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
-import javax.faces.application.FacesMessage;
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import ch.hsr.intte.servermp.model.User;
 import ch.hsr.intte.servermp.service.UserService;
+import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
-@SessionScoped
-public class RegistrationController {
+@ViewScoped
+public class RegistrationController implements Serializable {
+
+	private static final long serialVersionUID = -7318320729973864281L;
 
 	private String username;
 	private String password;
 
-	private ResourceBundle messages;
-
-	private UserService userService = UserService.getInstance();
-
-	public RegistrationController() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		messages = context.getApplication().getResourceBundle(context, "messages");
-	}
+	private transient UserService userService = UserService.getInstance();
+	private transient ChatSession chatSession = ChatSession.getInstance();
 
 	public String register() {
-		try {
-			checkUsername(null, null, username);
-			checkPassword(null, null, password);
+		checkUsername(username);
+		checkPassword(password);
 
-			userService.persist(new User(username, password));
+		userService.persist(new User(username, password));
+		chatSession.addMessage(SEVERITY_INFO, "registration.success", "registration.success_detail");
 
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("form:growl",
-					new FacesMessage(
-							messages.getString("registration.success"),
-							messages.getString("registration.success_detail")));
-
-			return "login.xhtml";
-		} catch (ValidatorException e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("form:growl", new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, e.getFacesMessage()
-							.getSummary(), e.getFacesMessage().getDetail()));
-			return "register.xhtml";
-		}
+		return "login.xhtml";
 	}
 
-	public void checkUsername(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
-		if (((String) value).isEmpty())
-			throw new ValidatorException(createErrorMessage(
-					messages.getString("username.error"),
-					messages.getString("username.empty")));
-		if (((String) value).length() < 4)
-			throw new ValidatorException(createErrorMessage(
-					messages.getString("username.error"),
-					messages.getString("username.short")));
-		if (userExists((String) value))
-			throw new ValidatorException(createErrorMessage(
-					messages.getString("username.error"),
-					messages.getString("username.exists")));
+	public void checkUsername(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+		checkUsername((String) value);
 	}
 
-	public void checkPassword(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
-		if (((String) value).isEmpty())
-			throw new ValidatorException(createErrorMessage(
-					messages.getString("password.error"),
-					messages.getString("password.empty")));
-		if (((String) value).length() < 4)
-			throw new ValidatorException(createErrorMessage(
-					messages.getString("password.error"),
-					messages.getString("password.short")));
+	private void checkUsername(String username) {
+		if (username.isEmpty())
+			throw createValidatorException("username.error", "username.empty");
+		if (username.length() < 4)
+			throw createValidatorException("username.error", "username.short");
+		if (userService.exists(username))
+			throw createValidatorException("username.error", "username.exists");
 	}
 
-	private FacesMessage createErrorMessage(String summary, String detail) {
-		FacesMessage message = new FacesMessage();
-
-		message.setSeverity(FacesMessage.SEVERITY_ERROR);
-		message.setSummary(summary);
-		message.setDetail(detail);
-
-		return message;
+	public void checkPassword(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+		checkPassword((String) value);
 	}
 
-	private boolean userExists(String id) {
-		return userService.findById(id) != null;
+	private void checkPassword(String password) {
+		if (password.isEmpty())
+			throw createValidatorException("password.error", "password.empty");
+		if (password.length() < 4)
+			throw createValidatorException("password.error", "password.short");
+	}
+
+	private ValidatorException createValidatorException(String summaryCode, String detailCode) {
+		return new ValidatorException(chatSession.createMessage(SEVERITY_ERROR, summaryCode, detailCode));
 	}
 
 	public String getUsername() {

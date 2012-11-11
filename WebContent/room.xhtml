@@ -6,23 +6,44 @@
 
 <h:head>
 	<title>Chat zum Thema #{roomController.room.name}</title>
+	<h:outputStylesheet name="styles.css" />
 	<script type="text/javascript">
 		function handleMessage(message) {
-			var item = $('<li/>').text(message);
-			$('#history').append(item);
+			$('#chat\\:output-area_list').append($('<li/>').text(message));
 		}
 	</script>
 </h:head>
 <h:body>
 
+	<h:form id="chat">
+		<p:growl id="growl" showDetail="true" autoUpdate="false" sticky="true" />
 
-	<div>
-		<ul id="history"></ul>
-	</div>
 
-	<h:form>
-		<p:inputText id="inputArea" value="#{roomController.message}" />
-		<p:commandButton id="sendButton" value="Send" actionListener="#{roomController.sendMessage}" />
+
+		<p:panel header="#{roomController.room.name}" styleClass="contentPanel">
+			<p:scrollPanel id="user-list" styleClass="user-list" scrollMode="native">
+				<p:dataList value="#{roomController.room.users}" var="user" itemType="circle">  
+								#{user.username}
+							</p:dataList>
+			</p:scrollPanel>
+			<p:poll interval="3" update="user-list" />
+
+			<p:scrollPanel id="output" scrollMode="native" styleClass="output-panel">
+				<p:dataList id="output-area" itemType="circle" />
+			</p:scrollPanel>
+		</p:panel>
+
+
+
+		<p:panel styleClass="contentPanel input">
+			<p:inputTextarea id="input-area" value="#{roomController.message}" styleClass="input-area" />
+			<br />
+			<p:commandButton id="send-button" value="#{messages['chat.send']}" actionListener="#{roomController.sendMessage}" update="input-area" />
+		</p:panel>
+
+		<p:panel styleClass="contentPanel">
+			<p:commandLink id="logout-link" action="#{roomController.logout}" ajax="false">#{messages['chat.logout']}</p:commandLink>
+		</p:panel>
 	</h:form>
 
 	<p:socket onMessage="handleMessage" channel="/#{roomController.room.name}"></p:socket>

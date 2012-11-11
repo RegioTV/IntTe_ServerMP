@@ -25,12 +25,12 @@ public class RoomService extends AbstractService<Room> {
 	}
 
 	@Override
-	String convert(Room room) {
+	String serialize(Room room) {
 		return room.getName();
 	}
 
 	@Override
-	Room convert(String line) {
+	Room deserialize(String line) {
 		return new Room(line);
 	}
 

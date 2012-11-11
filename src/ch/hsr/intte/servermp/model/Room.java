@@ -1,15 +1,16 @@
 package ch.hsr.intte.servermp.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import ch.hsr.intte.servermp.service.UserService;
 
-public class Room {
+public class Room implements Serializable {
+
+	private static final long serialVersionUID = 6206121114701018231L;
 
 	private String name;
-
-	private UserService userService = UserService.getInstance();
 
 	public Room(String name) {
 		this.name = name;
@@ -20,8 +21,8 @@ public class Room {
 	}
 
 	public Collection<User> getUsers() {
-		Collection<User> users = new HashSet<>();
-		for (User user : userService.findAll())
+		Collection<User> users = new ArrayList<>();
+		for (User user : UserService.getInstance().findAll())
 			if (user.getRoom().equals(this))
 				users.add(user);
 
@@ -33,7 +34,7 @@ public class Room {
 	}
 
 	public boolean equals(Object object) {
-		return object instanceof Room && name.equals(((Room) object).name);
+		return object != null && object instanceof Room && name.equals(((Room) object).name);
 	}
 
 }

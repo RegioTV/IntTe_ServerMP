@@ -1,10 +1,12 @@
 package ch.hsr.intte.servermp;
 
+import java.io.Serializable;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.push.PushContext;
 import org.primefaces.push.PushContextFactory;
@@ -14,8 +16,10 @@ import ch.hsr.intte.servermp.model.User;
 import ch.hsr.intte.servermp.util.ChatSession;
 
 @ManagedBean
-@SessionScoped
-public class RoomController {
+@ViewScoped
+public class RoomController implements Serializable {
+
+	private static final long serialVersionUID = -5041267243587143132L;
 
 	private static final Lock lock = new ReentrantLock();
 
@@ -37,16 +41,8 @@ public class RoomController {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Room getRoom() {
 		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
 	}
 
 	public String getMessage() {
@@ -58,9 +54,13 @@ public class RoomController {
 	}
 
 	public void sendMessage() {
+		if (message.isEmpty())
+			return;
+
 		try {
 			lock.lock();
 			distributeMessage();
+			message = "";
 		} finally {
 			lock.unlock();
 		}
@@ -73,9 +73,12 @@ public class RoomController {
 		pushContext.push("/" + room.getName(), user.getUsername() + ": " + message);
 	}
 
-	public String leaveRoom() {
+	public String logout() {
 		user.leaveRoom();
+
 		ChatSession.getInstance().invalidate();
+		ChatSession.getInstance().addMessage(FacesMessage.SEVERITY_INFO, "chat.logout.summary", "chat.logout.detail");
+
 		return "login.xhtml";
 	}
 

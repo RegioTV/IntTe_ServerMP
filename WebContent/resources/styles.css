@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-html, body {
+html,body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
 }
 
 .ui-growl {
-	width: 335px !important;	
+	width: 335px !important;
 }
 
 .ui-growl-message {
@@ -19,12 +19,34 @@ html, body {
 	width: 800px;
 }
 
+.output-panel {
+	min-height: 300px;
+}
+
+.user-list {
+	float: left;
+	width: 200px;
+	height: 300px;
+	margin-right: 5px;
+}
+
+.input {
+}
+
+.input-area {
+	height: 100%;
+	width: 100%;
+}
+
+#chat:logout-link {
+	margin: 100px;
+}
+
 #registrationForm table {
 	margin: 10px 0;
 }
 
-#registrationForm tr,
-#registrationForm td {
+#registrationForm tr,#registrationForm td {
 	background: none;
 	border: none;
 }

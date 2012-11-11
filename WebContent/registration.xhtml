@@ -1,9 +1,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -11,29 +9,22 @@
 	<h:outputStylesheet name="styles.css" />
 </h:head>
 <h:body>
-	<p:panel header="#{messages['registration.title']}" id="registrationPanel"
-		styleClass="contentPanel">
+	<p:panel header="#{messages['registration.title']}" id="registrationPanel" styleClass="contentPanel">
 		<h:form id="registrationForm">
-			<p:growl id="growl" showDetail="true" autoUpdate="false"
-				sticky="true" />
+			<p:growl id="growl" showDetail="true" autoUpdate="false" sticky="true" />
 
-			<h:outputText
-				value="#{messages['registration.headline']}" />
+			<h:outputText value="#{messages['registration.headline']}" />
 
 			<p:panelGrid columns="2">
 				<p:outputLabel for="username" value="#{messages['username.label']}" />
-				<p:inputText id="username" label="#{messages['username.label']}"
-					value="#{registrationController.username}"
+				<p:inputText id="username" label="#{messages['username.label']}" value="#{registrationController.username}"
 					validator="#{registrationController.checkUsername}" />
 
 				<p:outputLabel for="password" value="#{messages['password.label']}" />
-				<p:password id="password" feedback="true"
-					value="#{registrationController.password}"
-					validator="#{registrationController.checkPassword}" />
+				<p:password id="password" feedback="true" value="#{registrationController.password}" validator="#{registrationController.checkPassword}" />
 			</p:panelGrid>
 
-			<p:commandButton id="register" value="#{messages['registration.register']}"
-				action="#{registrationController.register}"
+			<p:commandButton id="register" value="#{messages['registration.register']}" action="#{registrationController.register}"
 				update=":registrationForm" />
 		</h:form>
 	</p:panel>

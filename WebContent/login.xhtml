@@ -1,9 +1,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -13,60 +11,44 @@
 <h:body>
 	<div class="contentPanel">
 		<h:form>
-			<p:growl id="growl" showDetail="true" autoUpdate="false"
-				sticky="true" />
+			<p:growl id="growl" showDetail="true" autoUpdate="false" sticky="true" />
 			<p:panel id="loginPanel" header="#{messages['lobby.login.title']}" style="margin-bottom:10px;">
 				<h:panelGrid columns="2">
 					<h:outputLabel for="username" value="#{messages['username.label']}" />
-					<p:inputText id="username" value="#{loginController.username}"
-						label="username">
-					</p:inputText>
+					<p:inputText id="username" value="#{loginController.username}" label="username" />
 
 					<h:outputLabel for="password" value="#{messages['password.label']}" />
-					<p:password id="password" value="#{loginController.password}"
-						label="Password" />
-
+					<p:password id="password" value="#{loginController.password}" label="Password" />
 				</h:panelGrid>
 			</p:panel>
 
 			<p:panel id="chat" header="#{messages['lobby.chatselection.title']}" style=" margin-bottom:10px;">
 				<h:panelGrid columns="1" cellspacing="10px;">
-					<p:selectOneMenu id="availableRooms"
-						value="#{loginController.selectedRoom}">
-						<f:selectItems id="roomList"
-							value="#{loginController.availableRooms}" var="room"
-							itemValue="#{room}" itemLabel="#{room.name}">
+					<p:selectOneMenu id="availableRooms" value="#{loginController.selectedRoom}">
+						<f:selectItems id="roomList" value="#{loginController.availableRooms}" var="room" itemValue="#{room}" itemLabel="#{room.name}">
 						</f:selectItems>
 					</p:selectOneMenu>
-					<h:outputLabel
-						value="#{messages['lobby.chatselection.availableChats']}
-		#{loginController.roomCount}" />
-		<h:outputLabel value="#{messages['lobby.chatselection.instruction']}"/>
+					<h:outputLabel value="#{messages['lobby.chatselection.availableChats']} #{loginController.roomCount}" />
+					<h:outputLabel value="#{messages['lobby.chatselection.instruction']}" />
 				</h:panelGrid>
 			</p:panel>
-			<p:panel id="chatCreation" header="#{messages['lobby.chatcreation.title']}"
-				style="margin-bottom:10px;">
+			<p:panel id="chatCreation" header="#{messages['lobby.chatcreation.title']}" style="margin-bottom:10px;">
 				<h:panelGrid columns="4" cellspacing="10px;">
 					<h:outputLabel for="roomNameInput" value="#{messages['lobby.chatcreation.label']}" />
-					<p:inputText id="roomNameInput"
-						value="#{loginController.customRoomName}" required="false"
-						label="createdRoom" disabled="#{!loginController.customRoom}">
+					<p:inputText id="roomNameInput" value="#{loginController.customRoomName}" required="false" label="createdRoom"
+						disabled="#{!loginController.customRoom}">
 					</p:inputText>
-					<p:selectBooleanCheckbox id="customChatCheckbox"
-						value="#{loginController.customRoom}">
-						<f:ajax execute="customChatCheckbox" render="roomNameInput"
-							event="change" />
+					<p:selectBooleanCheckbox id="customChatCheckbox" value="#{loginController.customRoom}">
+						<f:ajax execute="customChatCheckbox" render="roomNameInput" event="change" />
 					</p:selectBooleanCheckbox>
 					<h:outputText value="#{messages['lobby.chatcreation.selectionLabel']}" />
 				</h:panelGrid>
 			</p:panel>
-			<p:commandButton id="enterButton" value="#{messages['lobby.enter']}"
-				style="margin-bottom:10px;" update="messages"
+			<p:commandButton id="enterButton" value="#{messages['lobby.enter']}" style="margin-bottom:10px;" update="messages"
 				action="#{loginController.enter}" ajax="false" />
 			<br></br>
-			<h:outputText value="#{messages['lobby.registrationText']}"/>
-			 <h:outputLink
-				value="registration.xhtml">
+			<h:outputText value="#{messages['lobby.registrationText']}" />
+			<h:outputLink value="registration.xhtml">
 				<h:outputText value="#{messages['lobby.registrationLink']}" />
 			</h:outputLink>
 		</h:form>

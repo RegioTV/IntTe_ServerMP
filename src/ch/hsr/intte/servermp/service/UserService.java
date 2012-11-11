@@ -25,14 +25,13 @@ public class UserService extends AbstractService<User> {
 	}
 
 	@Override
-	User convert(String line) {
-		String[] tokens = line.split(":");
-		return new User(tokens[0], tokens[1]);
+	User deserialize(String line) {
+		return User.deserialize(line);
 	}
 
 	@Override
-	String convert(User user) {
-		return user.getUsername() + ":" + user.getPassword();
+	String serialize(User user) {
+		return User.serialize(user);
 	}
 
 }
