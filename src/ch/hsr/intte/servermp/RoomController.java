@@ -23,26 +23,14 @@ public class RoomController implements Serializable {
 
 	private static final Lock lock = new ReentrantLock();
 
-	private User user;
-	private Room room;
-
 	private String message;
 
-	public RoomController() {
-		ChatSession chatSession = ChatSession.getInstance();
-
-		user = chatSession.getUser();
-		room = chatSession.getRoom();
-
-		user.enterRoom(room);
-	}
-
 	public User getUser() {
-		return user;
+		return ChatSession.getInstance().getUser();
 	}
 
 	public Room getRoom() {
-		return room;
+		return getUser().getRoom();
 	}
 
 	public String getMessage() {
@@ -70,14 +58,16 @@ public class RoomController implements Serializable {
 		PushContextFactory pushContextFactory = PushContextFactory.getDefault();
 		PushContext pushContext = pushContextFactory.getPushContext();
 
-		pushContext.push("/" + room.getName(), user.getUsername() + ": " + message);
+		pushContext.push("/" + getRoom().getName(), getUser().getUsername() + ": " + message);
 	}
 
 	public String logout() {
-		user.leaveRoom();
+		getUser().leaveRoom();
 
-		ChatSession.getInstance().invalidate();
-		ChatSession.getInstance().addMessage(FacesMessage.SEVERITY_INFO, "chat.logout.summary", "chat.logout.detail");
+		ChatSession chatSession = ChatSession.getInstance();
+
+		chatSession.invalidate();
+		chatSession.addMessage(FacesMessage.SEVERITY_INFO, "chat.logout.summary", "chat.logout.detail");
 
 		return "login.xhtml";
 	}

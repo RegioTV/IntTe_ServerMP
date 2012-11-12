@@ -10,13 +10,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-import ch.hsr.intte.servermp.model.Room;
 import ch.hsr.intte.servermp.model.User;
 
 public class ChatSession {
 
 	private static final String USER = "user";
-	private static final String ROOM = "room";
 
 	private static ChatSession instance;
 
@@ -35,14 +33,6 @@ public class ChatSession {
 
 	public void setUser(User user) {
 		getSessionMap().put(USER, user);
-	}
-
-	public Room getRoom() {
-		return (Room) getSessionMap().get(ROOM);
-	}
-
-	public void setRoom(Room room) {
-		getSessionMap().put(ROOM, room);
 	}
 
 	private Map<String, Object> getSessionMap() {

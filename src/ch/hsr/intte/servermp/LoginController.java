@@ -118,7 +118,7 @@ public class LoginController implements Serializable {
 
 	private void setSessionParameters() {
 		ChatSession.getInstance().setUser(currentUser);
-		ChatSession.getInstance().setRoom(selectedRoom);
+		currentUser.enterRoom(selectedRoom);
 	}
 
 }
