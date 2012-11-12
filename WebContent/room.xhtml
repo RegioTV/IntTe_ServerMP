@@ -5,7 +5,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Chat zum Thema #{roomController.room.name}</title>
+	<title>#{messages['chat.title']} #{roomController.room.name}</title>
 	<h:outputStylesheet name="styles.css" />
 	<script type="text/javascript">
 		function handleMessage(message) {
